@@ -4,6 +4,17 @@
   function onScroll(){ if(nav) nav.classList.toggle('scrolled', window.scrollY > 24); }
   window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
 
+  /* smooth page transitions between the site's pages */
+  document.querySelectorAll('a[href$=".html"]').forEach(function(a){
+    a.addEventListener('click', function(ev){
+      var href = a.getAttribute('href');
+      if(!href || href.charAt(0) === '#') return;
+      ev.preventDefault();
+      document.body.classList.add('page-exit');
+      setTimeout(function(){ window.location.href = href; }, 300);
+    });
+  });
+
   var ham = document.getElementById('hamburger'), links = document.getElementById('navLinks');
   if(ham && links){
     ham.addEventListener('click', function(){
