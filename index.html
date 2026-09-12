@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aravind Mutte — Cloud DevOps & SRE Engineer</title>
+<meta name="description" content="Aravind Mutte is a Cloud DevOps & Site Reliability Engineer (AWS, Azure, Kubernetes, Terraform) based in Hyderabad, India. Available for freelance projects and full-time roles.">
+<style>
+  :root{
+    --bg:#0a1120; --bg2:#0e1830; --card:#111d36; --line:#1e2c4f;
+    --text:#e8eefc; --muted:#93a4c8; --accent:#22d3ee; --accent2:#818cf8;
+    --green:#34d399;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Helvetica,Arial,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  /* nav */
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(10,17,32,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{font-weight:800;font-size:18px;letter-spacing:.5px;color:var(--text)}
+  .brand span{color:var(--accent)}
+  .navlinks{display:flex;gap:26px;font-size:14px}
+  .navlinks a{color:var(--muted)}
+  .navlinks a:hover{color:var(--text);text-decoration:none}
+  @media(max-width:720px){.navlinks{display:none}}
+  /* hero */
+  header.hero{padding:150px 0 70px;position:relative;overflow:hidden}
+  header.hero::before{content:"";position:absolute;inset:0;background:
+    radial-gradient(600px 300px at 20% 10%,rgba(34,211,238,.12),transparent),
+    radial-gradient(500px 300px at 85% 20%,rgba(129,140,248,.12),transparent);pointer-events:none}
+  .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.35);color:var(--green);font-size:13px;padding:6px 14px;border-radius:999px;margin-bottom:22px}
+  .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  h1{font-size:clamp(38px,6vw,64px);line-height:1.1;font-weight:800;letter-spacing:-1px;margin-bottom:14px}
+  h1 .accent{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .subtitle{font-size:clamp(17px,2.4vw,22px);color:var(--muted);max-width:680px;margin-bottom:30px}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:13px 28px;border-radius:10px;font-weight:700;font-size:15px;transition:transform .15s,box-shadow .15s}
+  .btn:hover{text-decoration:none;transform:translateY(-2px)}
+  .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#06121f;box-shadow:0 8px 24px rgba(34,211,238,.25)}
+  .btn-ghost{border:1px solid var(--line);color:var(--text);background:var(--card)}
+  .hero-meta{margin-top:26px;color:var(--muted);font-size:14px}
+  .hero-meta span{margin-right:18px}
+  /* stats */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:10px 0 0}
+  @media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 18px;text-align:center}
+  .stat .num{font-size:30px;font-weight:800;color:var(--accent)}
+  .stat .lbl{font-size:13px;color:var(--muted);margin-top:6px}
+  /* sections */
+  section{padding:64px 0}
+  .sec-head{margin-bottom:34px}
+  .sec-head .kicker{font-size:13px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:10px}
+  .sec-head h2{font-size:clamp(26px,4vw,36px);font-weight:800;letter-spacing:-.5px}
+  .sec-head p{color:var(--muted);max-width:640px;margin-top:10px}
+  /* services */
+  .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;transition:transform .15s,border-color .15s}
+  .card:hover{transform:translateY(-4px);border-color:var(--accent)}
+  .card .icon{font-size:30px;margin-bottom:14px}
+  .card h3{font-size:19px;margin-bottom:10px}
+  .card p{color:var(--muted);font-size:15px}
+  .card .tags{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+  .tag{font-size:12px;background:var(--bg2);border:1px solid var(--line);color:var(--muted);padding:4px 10px;border-radius:999px}
+  /* experience */
+  .job{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;margin-bottom:18px}
+  .job-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+  .job-head h3{font-size:20px}
+  .job-head .dates{color:var(--accent);font-size:14px;font-weight:600;white-space:nowrap}
+  .job .org{color:var(--muted);font-size:15px;margin-bottom:4px}
+  .job .proj{font-style:italic;color:var(--muted);font-size:14px;margin-bottom:14px}
+  .job ul{padding-left:20px;color:#c4d0ec;font-size:15px}
+  .job li{margin-bottom:8px}
+  .job li::marker{color:var(--accent)}
+  /* skills */
+  .skillgroup{margin-bottom:26px}
+  .skillgroup h4{font-size:15px;color:var(--accent);margin-bottom:12px;letter-spacing:.5px}
+  .chips{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{background:var(--bg2);border:1px solid var(--line);padding:8px 16px;border-radius:10px;font-size:14px;color:#c4d0ec}
+  /* edu */
+  .edu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  @media(max-width:720px){.edu-grid{grid-template-columns:1fr}}
+  /* contact */
+  .contact-card{background:linear-gradient(135deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:20px;padding:44px;text-align:center}
+  .contact-card h2{font-size:clamp(26px,4vw,36px);margin-bottom:12px}
+  .contact-card p{color:var(--muted);max-width:560px;margin:0 auto 26px}
+  .contact-links{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:26px}
+  .contact-links a{background:var(--bg);border:1px solid var(--line);color:var(--text);padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600}
+  .contact-links a:hover{border-color:var(--accent);text-decoration:none}
+  footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:13px;text-align:center}
+  .term{background:#060b16;border:1px solid var(--line);border-radius:12px;padding:18px 20px;font-size:14px;color:var(--green);margin-top:34px;overflow-x:auto;white-space:nowrap}
+  .term .dim{color:var(--muted)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">AM<span>.</span>devops</div>
+    <div class="navlinks">
+      <a href="#services">Services</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="badge"><span class="dot"></span> Available for immediate joining — freelance &amp; full-time</div>
+    <h1>Aravind Mutte<br><span class="accent">Cloud DevOps &amp; SRE Engineer</span></h1>
+    <p class="subtitle">I design, automate, and operate cloud infrastructure on AWS and Azure — 4 years across enterprise environments in the US and India, with a track record of 99.95% availability and 20–30% infrastructure cost savings.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#contact">Hire Me</a>
+      <a class="btn btn-ghost" href="#experience">View Experience</a>
+    </div>
+    <div class="hero-meta mono">
+      <span>📍 Hyderabad, India</span><span>✉️ mutthe.aravind@gmail.com</span><span>📞 +91 9885189951</span>
+    </div>
+    <div class="term mono"><span class="dim">$</span> whoami <br><span class="dim">→</span> devops_engineer --clouds=aws,azure --iac=terraform --orchestration=kubernetes --uptime=99.95%</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><div class="num">4</div><div class="lbl">Years of experience</div></div>
+    <div class="stat"><div class="num">99.95%</div><div class="lbl">Platform availability delivered</div></div>
+    <div class="stat"><div class="num">−40%</div><div class="lbl">Mean time to recovery</div></div>
+    <div class="stat"><div class="num">−30%</div><div class="lbl">Infrastructure cost savings</div></div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Services</div>
+      <h2>What I can do for your business</h2>
+      <p>Freelance and contract engagements for startups and enterprises — from landing zones to fully automated delivery pipelines.</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="icon">☁️</div>
+        <h3>Cloud Infrastructure Setup &amp; Migration</h3>
+        <p>Production-grade AWS and Azure architectures, designed as code from day one — secure, scalable, and ready to grow with you.</p>
+        <div class="tags"><span class="tag">AWS</span><span class="tag">Azure</span><span class="tag">Terraform</span><span class="tag">CloudFormation</span></div>
+      </div>
+      <div class="card">
+        <div class="icon">🔁</div>
+        <h3>CI/CD Pipeline Engineering</h3>
+        <p>Automated build, test, and deployment pipelines that ship safely and often — with standardized release governance baked in.</p>
+        <div class="tags"><span class="tag">Jenkins</span><span class="tag">GitHub Actions</span><span class="tag">GitLab CI</span><span class="tag">Azure DevOps</span></div>
+      </div>
+      <div class="card">
+        <div class="icon">📦</div>
+        <h3>Kubernetes &amp; Container Platforms</h3>
+        <p>Containerized workloads on EKS and AKS — deployment, scaling, and day-2 operations handled end to end.</p>
+        <div class="tags"><span class="tag">Kubernetes</span><span class="tag">EKS</span><span class="tag">AKS</span><span class="tag">Docker</span><span class="tag">Helm</span></div>
+      </div>
+      <div class="card">
+        <div class="icon">📉</div>
+        <h3>Reliability &amp; Cost Optimization</h3>
+        <p>SRE practices, observability, and incident management that cut MTTR by 40% — plus rightsizing that typically saves 20–30% on cloud bills.</p>
+        <div class="tags"><span class="tag">Prometheus</span><span class="tag">Grafana</span><span class="tag">CloudWatch</span><span class="tag">SRE</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Experience</div>
+      <h2>Where I've worked</h2>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><h3>DevOps / Site Reliability Engineer</h3><span class="dates mono">Jan 2025 – Jun 2026</span></div>
+      <div class="org">Bank of America — Texas, USA</div>
+      <div class="proj">High-Scale Financial Services Platform (Distributed Microservices)</div>
+      <ul>
+        <li>Managed highly available AWS production infrastructure integrated with Azure services, sustaining <strong>99.95% availability</strong>.</li>
+        <li>Administered containerized microservices on Amazon EKS in hybrid cloud environments.</li>
+        <li>Built CI/CD pipelines with Jenkins, AWS CodePipeline, and GitLab CI; automated provisioning with Terraform and CloudFormation.</li>
+        <li>Cut MTTR by ~40% with Python + Lambda automated remediation; improved deployment success rates by 35%.</li>
+        <li>Reduced provisioning time 70% via IaC standardization and cut infra costs 20–30% through rightsizing.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><h3>Senior System Engineer (Cloud DevOps)</h3><span class="dates mono">Apr 2022 – Feb 2023</span></div>
+      <div class="org">Infosys Ltd. — Bangalore, India</div>
+      <div class="proj">Cloud-Native B2B Integration Platform (Multi-Cloud)</div>
+      <ul>
+        <li>Designed and supported cloud-native apps across AWS and Azure (ECS Fargate, API Gateway, RDS).</li>
+        <li>Built end-to-end CI/CD with Jenkins, GitLab CI, Azure DevOps, and AWS CodePipeline.</li>
+        <li>Automated multi-cloud provisioning with Terraform; implemented proactive monitoring and alerting.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><h3>Infrastructure Engineer (Linux / System Administration)</h3><span class="dates mono">Apr 2020 – Mar 2022</span></div>
+      <div class="org">PragmaEdge Inc. — Hyderabad, India</div>
+      <div class="proj">Enterprise B2B Integration Platform (IBM Sterling Stack)</div>
+      <ul>
+        <li>Administered Linux production environments; managed secure B2B file transfers (SFTP, FTPS, AS2).</li>
+        <li>Provided L2 production support with RCA; automated ops with Bash scripting.</li>
+        <li>Supported containerized workloads on AKS; managed Oracle and MySQL backends.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Toolbox</div>
+      <h2>Technical skills</h2>
+    </div>
+    <div class="skillgroup">
+      <h4>CLOUD PLATFORMS</h4>
+      <div class="chips"><span class="chip">AWS (EC2, S3, RDS, Lambda, EKS, ECS, VPC, IAM, CloudWatch)</span><span class="chip">Azure (AKS, App Services, VMs, VNet, Monitor, Entra ID)</span></div>
+    </div>
+    <div class="skillgroup">
+      <h4>INFRASTRUCTURE AS CODE</h4>
+      <div class="chips"><span class="chip">Terraform</span><span class="chip">CloudFormation</span><span class="chip">ARM Templates</span></div>
+    </div>
+    <div class="skillgroup">
+      <h4>CI/CD &amp; DEVOPS</h4>
+      <div class="chips"><span class="chip">Jenkins</span><span class="chip">GitHub Actions</span><span class="chip">GitLab CI</span><span class="chip">Azure DevOps</span><span class="chip">AWS CodePipeline</span></div>
+    </div>
+    <div class="skillgroup">
+      <h4>CONTAINERS &amp; ORCHESTRATION</h4>
+      <div class="chips"><span class="chip">Docker</span><span class="chip">Kubernetes (EKS, AKS)</span><span class="chip">ECS Fargate</span><span class="chip">Helm</span></div>
+    </div>
+    <div class="skillgroup">
+      <h4>MONITORING &amp; OBSERVABILITY</h4>
+      <div class="chips"><span class="chip">Prometheus</span><span class="chip">Grafana</span><span class="chip">CloudWatch</span><span class="chip">Azure Monitor</span></div>
+    </div>
+    <div class="skillgroup">
+      <h4>SCRIPTING &amp; SYSTEMS</h4>
+      <div class="chips"><span class="chip">Python</span><span class="chip">Bash</span><span class="chip">YAML</span><span class="chip">Linux (RHEL/Ubuntu)</span><span class="chip">Git</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Background</div>
+      <h2>Education &amp; certifications</h2>
+    </div>
+    <div class="edu-grid">
+      <div class="card">
+        <div class="icon">🎓</div>
+        <h3>MS, Computer Science</h3>
+        <p>Rivier University, Nashua, NH, USA<br><span class="mono" style="font-size:13px">2023 – 2024 · GPA 3.8/4.0</span></p>
+      </div>
+      <div class="card">
+        <div class="icon">🎓</div>
+        <h3>B.Tech, Computer Science &amp; Engineering</h3>
+        <p>Jawaharlal Nehru Technological University, Hyderabad<br><span class="mono" style="font-size:13px">2017 – 2020 · Lateral Entry</span></p>
+      </div>
+      <div class="card">
+        <div class="icon">📜</div>
+        <h3>Google Cloud Certified</h3>
+        <p>Professional Cloud Architect</p>
+      </div>
+      <div class="card">
+        <div class="icon">📜</div>
+        <h3>Microsoft Azure</h3>
+        <p>AZ-900: Azure Fundamentals</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-card">
+      <div class="kicker" style="font-size:13px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:10px">Contact</div>
+      <h2>Let's build something reliable.</h2>
+      <p>Have a cloud project, a pipeline that needs fixing, or a full-time role? My inbox is open — I usually reply within a day.</p>
+      <div class="contact-links">
+        <a href="mailto:mutthe.aravind@gmail.com">✉️ Email</a>
+        <a href="tel:+919885189951">📞 +91 98851 89951</a>
+        <a href="https://linkedin.com/in/aravindmutte" target="_blank" rel="noopener">💼 LinkedIn</a>
+        <a href="https://github.com/AravindMutthe" target="_blank" rel="noopener">💻 GitHub</a>
+      </div>
+      <a class="btn btn-primary" href="mailto:mutthe.aravind@gmail.com?subject=Project%20inquiry%20—%20DevOps%2FSRE">Start a conversation</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© 2026 Aravind Mutte · Hyderabad, India · Built with care, deployed on Vercel</div>
+</footer>
+
+</body>
+</html>
