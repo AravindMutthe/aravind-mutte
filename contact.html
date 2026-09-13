@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="backdrop"></div>
+<div id="progress"></div>
 
 <nav id="nav">
   <div class="wrap nav-inner">
@@ -27,16 +27,19 @@
 </nav>
 
 <header class="page-hero">
+  <div class="orb" style="width:360px;height:360px;top:40px;left:-140px;background:#8b5cf6"></div>
+  <div class="orb" style="width:320px;height:320px;top:120px;right:-120px;background:#22d3ee;animation-delay:-7s"></div>
   <div class="wrap">
     <div class="eyebrow reveal"><span class="n">05</span> Contact</div>
-    <h1 class="hero-title reveal">Let's build something <span class="outline">reliable.</span></h1>
-    <p class="lead reveal d1">Have a cloud project, a pipeline that needs fixing, or a full-time role to fill? Tell me about it — I usually reply within a day.</p>
+    <h1 class="hero-title reveal">Let's build something <span class="grad">reliable.</span></h1>
+    <p class="lead reveal d1">Have a cloud project, a pipeline that needs fixing, or a full-time role to fill? Fill this in — it lands straight in my <strong>email, WhatsApp and SMS</strong>. I usually reply within a day.</p>
   </div>
 </header>
 
 <div class="wrap">
-  <div class="poster poster-band tight reveal">
-    <img src="img/contact-poster.jpg" alt="Minimal black and white poster — glowing sphere with connecting lines" loading="eager">
+  <div class="poster poster-band tight reveal-scale" data-parallax>
+    <img src="img/contact-neon.jpg" alt="Vibrant network of glowing connections forming a sphere" loading="eager">
+    <div class="glow"></div>
   </div>
 </div>
 
@@ -61,14 +64,28 @@
       </a>
     </div>
 
-    <form class="cform reveal" id="contactForm">
+    <form class="cform reveal" id="hireForm" novalidate>
       <div class="frow">
-        <div><label for="cf-name">Your name</label><input type="text" id="cf-name" placeholder="Jane Sharma" required></div>
-        <div><label for="cf-email">Your email</label><input type="email" id="cf-email" placeholder="jane@company.com" required></div>
+        <div class="field"><label for="cf-name">Your name *</label><input type="text" id="cf-name" name="name" placeholder="Jane Sharma" autocomplete="name" required></div>
+        <div class="field"><label for="cf-email">Your email *</label><input type="email" id="cf-email" name="email" placeholder="jane@company.com" autocomplete="email" required></div>
       </div>
-      <div><label for="cf-subject">Subject</label><input type="text" id="cf-subject" placeholder="e.g. CI/CD pipeline project"></div>
-      <div><label for="cf-msg">Message</label><textarea id="cf-msg" placeholder="Tell me about your project or role…" required></textarea></div>
-      <button type="submit" class="btn">Send Message →</button>
+      <div class="frow">
+        <div class="field"><label for="cf-phone">Phone / WhatsApp</label><input type="tel" id="cf-phone" name="phone" placeholder="+91 …" autocomplete="tel"></div>
+        <div class="field"><label for="cf-budget">Project budget</label>
+          <select id="cf-budget" name="budget">
+            <option value="">Select a range…</option>
+            <option>Under ₹25,000</option>
+            <option>₹25,000 – ₹75,000</option>
+            <option>₹75,000 – ₹2,00,000</option>
+            <option>₹2,00,000+</option>
+            <option>Full-time role (salary)</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label for="cf-msg">Project details *</label><textarea id="cf-msg" name="message" placeholder="What are you building? Timeline? Current stack?…" required></textarea></div>
+      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit" class="btn" id="hireBtn"><span class="spinner"></span><span class="btn-label">Send Enquiry →</span></button>
+      <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
     </form>
   </div>
 </section>
