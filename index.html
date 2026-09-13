@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="backdrop"></div>
+<div id="progress"></div>
 
 <nav id="nav">
   <div class="wrap nav-inner">
@@ -26,53 +26,76 @@
   </div>
 </nav>
 
-<header class="home-hero">
-  <div class="wrap">
-    <div class="status reveal"><span class="dot"></span> Available for immediate joining — freelance &amp; full-time</div>
-    <h1 class="reveal">Infrastructure that <span class="outline">ships fast</span> and <span class="outline">never sleeps.</span></h1>
-    <p class="lead reveal d1">I'm <strong>Aravind Mutte</strong>, a Cloud DevOps &amp; Site Reliability Engineer with <strong>4 years</strong> across enterprise environments in the US and India. I build automated, observable cloud platforms on <strong>AWS and Azure</strong>.</p>
-    <div class="hero-ctas reveal d2">
-      <a href="contact.html" class="btn">Start a Project</a>
-      <a href="services.html" class="btn btn-ghost">Explore Services</a>
+<div class="hero-stage">
+  <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="img/hero-poster.jpg">
+    <source src="img/hero-loop.mp4" type="video/mp4">
+  </video>
+  <div class="hero-veil"></div>
+  <div class="orb" style="width:420px;height:420px;top:-120px;left:-120px;background:#4d7cfe"></div>
+  <div class="orb" style="width:380px;height:380px;top:10%;right:-140px;background:#ec4899;animation-delay:-6s"></div>
+
+  <header class="home-hero">
+    <div class="wrap">
+      <div class="status reveal"><span class="dot"></span> Available for immediate joining — freelance &amp; full-time</div>
+      <h1 class="reveal">Infrastructure that <span class="grad">ships fast</span> and <span class="grad">never sleeps.</span></h1>
+      <p class="lead reveal d1">I'm <strong>Aravind Mutte</strong>, a Cloud DevOps &amp; Site Reliability Engineer with <strong>4 years</strong> across enterprise environments in the US and India. I build automated, observable cloud platforms on <strong>AWS and Azure</strong>.</p>
+      <div class="hero-ctas reveal d2">
+        <a href="contact.html" class="btn">Start a Project</a>
+        <a href="services.html" class="btn btn-ghost">Explore Services</a>
+      </div>
     </div>
-  </div>
-  <div class="wrap">
-    <div class="poster poster-band reveal d3">
-      <img src="img/hero-poster.jpg" alt="Black and white artwork of cloud infrastructure — luminous networks over server silhouettes" loading="eager">
+
+    <div class="ticker reveal d3" aria-hidden="true">
+      <div class="ticker-track" id="tickerTrack">
+        <span class="tick-pill">AWS</span><span class="tick-pill">Kubernetes</span><span class="tick-pill">Terraform</span>
+        <span class="tick-pill">Azure</span><span class="tick-pill">Docker</span><span class="tick-pill">Jenkins</span>
+        <span class="tick-pill">GitHub Actions</span><span class="tick-pill">Prometheus</span><span class="tick-pill">Grafana</span>
+        <span class="tick-pill">Linux</span><span class="tick-pill">Python</span><span class="tick-pill">CI/CD</span>
+      </div>
     </div>
-  </div>
-  <div class="wrap">
-    <div class="hero-meta reveal">
-      <div class="hm"><div class="v"><span class="count" data-to="4">0</span></div><div class="k">YEARS EXPERIENCE</div></div>
-      <div class="hm"><div class="v"><span class="count" data-to="99.95" data-dec="2">0</span>%</div><div class="k">AVAILABILITY DELIVERED</div></div>
-      <div class="hm"><div class="v">−<span class="count" data-to="40">0</span>%</div><div class="k">MEAN TIME TO RECOVERY</div></div>
-      <div class="hm"><div class="v">−<span class="count" data-to="30">0</span>%</div><div class="k">INFRA COST REDUCTION</div></div>
+
+    <div class="wrap">
+      <div class="hero-meta reveal">
+        <div class="hm"><div class="v"><span class="count" data-to="4" data-dec="1">0</span><span class="suffix">+</span></div><div class="k">Years experience</div></div>
+        <div class="hm"><div class="v"><span class="count" data-to="99.95" data-dec="2">0</span><span class="suffix">%</span></div><div class="k">Availability delivered</div></div>
+        <div class="hm"><div class="v">−<span class="count" data-to="40">0</span><span class="suffix">%</span></div><div class="k">Mean time to recovery</div></div>
+        <div class="hm"><div class="v">−<span class="count" data-to="30">0</span><span class="suffix">%</span></div><div class="k">Infra cost reduction</div></div>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
+</div>
 
 <section class="block">
   <div class="wrap">
     <div class="sec-label reveal">What I do</div>
-    <h2 class="sec-title reveal">Two ways to work together</h2>
+    <h2 class="sec-title reveal">Two ways to <span class="grad">work together</span></h2>
     <p class="sec-sub reveal">Whether you need a platform built from scratch or an existing one made boring — in the best way.</p>
 
-    <div class="feature reveal">
-      <div>
+    <div class="feature reveal-l">
+      <div class="f-copy">
         <h3>For businesses — freelance DevOps</h3>
         <p>Cloud infrastructure, CI/CD pipelines, Kubernetes platforms, and cost optimization — delivered as fixed-scope engagements. You get senior-level DevOps without the hiring cycle.</p>
-        <a class="link-arrow" href="services.html">See all services →</a>
+        <a class="link-arrow" href="services.html">See all services <span class="arr">→</span></a>
       </div>
-      <div class="f-visual"><img src="img/services-poster.jpg" alt="Black and white geometric artwork" loading="lazy"><span class="big">01</span></div>
+      <div class="f-visual"><img src="img/services-neon.jpg" alt="Vibrant 3D illustration of a DevOps pipeline — gears, containers and cloud nodes" loading="lazy"><span class="big">01</span></div>
     </div>
 
-    <div class="feature reveal">
-      <div>
+    <div class="feature reveal-r">
+      <div class="f-copy">
         <h3>For employers — full-time roles</h3>
         <p>Four years across Bank of America, Infosys, and PragmaEdge. High-scale financial platforms, multi-cloud systems, and production Linux at enterprise standards.</p>
-        <a class="link-arrow" href="experience.html">See experience →</a>
+        <a class="link-arrow" href="experience.html">See experience <span class="arr">→</span></a>
       </div>
-      <div class="f-visual"><img src="img/about-visual.jpg" alt="Black and white photograph of a data center corridor" loading="lazy"><span class="big">02</span></div>
+      <div class="f-visual"><img src="img/about-neon.jpg" alt="Neon-lit futuristic data center corridor" loading="lazy"><span class="big">02</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" style="padding-top:0">
+  <div class="wrap">
+    <div class="poster reveal-scale" data-parallax>
+      <img src="img/contact-neon.jpg" alt="Vibrant network of glowing connections forming a sphere" loading="lazy">
+      <div class="glow"></div>
     </div>
   </div>
 </section>
@@ -80,7 +103,8 @@
 <section class="block" style="padding-top:0">
   <div class="wrap">
     <div class="cta-band reveal">
-      <h2>Have a system that needs to <span class="outline">just work?</span></h2>
+      <div class="mesh"></div>
+      <h2>Have a system that needs to <span class="grad">just work?</span></h2>
       <p>Tell me about your project or role — I usually reply within a day.</p>
       <div class="cta-row">
         <a href="contact.html" class="btn">Get in Touch</a>
