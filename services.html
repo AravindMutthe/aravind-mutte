@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="backdrop"></div>
+<div id="progress"></div>
 
 <nav id="nav">
   <div class="wrap nav-inner">
@@ -29,21 +29,22 @@
 <header class="page-hero">
   <div class="wrap">
     <div class="eyebrow reveal"><span class="n">01</span> Services</div>
-    <h1 class="hero-title reveal">What I can do for <span class="outline">your business.</span></h1>
+    <h1 class="hero-title reveal">What I can do for <span class="grad">your business.</span></h1>
     <p class="lead reveal d1">Freelance and contract engagements for startups and enterprises — from landing zones to fully automated delivery pipelines.</p>
   </div>
 </header>
 
 <div class="wrap">
-  <div class="poster poster-band tight reveal">
-    <img src="img/services-poster.jpg" alt="Black and white geometric poster — circles and grids" loading="eager">
+  <div class="poster poster-band tight reveal-scale" data-parallax>
+    <img src="img/services-neon.jpg" alt="Vibrant 3D DevOps pipeline — glowing gears, containers and cloud nodes" loading="eager">
+    <div class="glow"></div>
   </div>
 </div>
 
 <section class="block" style="padding-top:0">
   <div class="wrap">
     <div class="grid2">
-      <div class="card reveal">
+      <div class="card tilt reveal">
         <span class="num">/ 01</span>
         <div class="iconbox"><svg viewBox="0 0 24 24"><path d="M17.5 19a4.5 4.5 0 0 0 .42-8.98 6.5 6.5 0 0 0-12.7 1.61A4 4 0 0 0 6 19h11.5z"/></svg></div>
         <h3>Cloud Architecture &amp; Migration</h3>
@@ -52,7 +53,7 @@
         <div class="check"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Zero-downtime workload migrations</div>
         <div class="check"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Everything in Terraform / CloudFormation</div>
       </div>
-      <div class="card reveal d1">
+      <div class="card tilt reveal d1">
         <span class="num">/ 02</span>
         <div class="iconbox"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></div>
         <h3>CI/CD Pipeline Engineering</h3>
@@ -61,7 +62,7 @@
         <div class="check"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Blue-green &amp; canary deployment strategies</div>
         <div class="check"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Standardized, auditable release workflows</div>
       </div>
-      <div class="card reveal d2">
+      <div class="card tilt reveal d2">
         <span class="num">/ 03</span>
         <div class="iconbox"><svg viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5M12 22V12"/></svg></div>
         <h3>Kubernetes &amp; Containers</h3>
@@ -70,7 +71,7 @@
         <div class="check"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Helm charts, GitOps-ready manifests</div>
         <div class="check"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Day-2 ops: upgrades, scaling, disaster recovery</div>
       </div>
-      <div class="card reveal d3">
+      <div class="card tilt reveal d3">
         <span class="num">/ 04</span>
         <div class="iconbox"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-6 4 3 5-8"/></svg></div>
         <h3>Reliability &amp; Cost Optimization</h3>
@@ -86,7 +87,8 @@
 <section class="block" style="padding-top:0">
   <div class="wrap">
     <div class="cta-band reveal">
-      <h2>Have a project <span class="outline">in mind?</span></h2>
+      <div class="mesh"></div>
+      <h2>Have a project <span class="grad">in mind?</span></h2>
       <p>Describe it in a few lines — I'll tell you honestly whether I'm the right fit and what it would take.</p>
       <div class="cta-row">
         <a href="contact.html" class="btn">Request a Quote</a>
