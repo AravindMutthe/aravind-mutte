@@ -77,14 +77,15 @@ function generateTestHero() {
   progress("Creating page…");
   const page = penpot.createPage();
   page.name = "GradeSpot - Test";
+  // Plugins can only modify the ACTIVE page, so switch to the new page first.
+  penpot.openPage(page);
 
   progress("Creating 1440×900 board…");
-  const board = penpot.createBoard();
+  const board = penpot.createBoard(); // created on the new active page
   board.name = "Homepage - Test Hero";
   board.resize(1440, 900);
   board.x = 0; board.y = 0;
   board.fills = [{ fillColor: "#FFFFFF" }];
-  page.root.appendChild(board); // move the board onto the new page
 
   // nav
   progress("Drawing navbar…");
