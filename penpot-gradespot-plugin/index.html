@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { font-family: Inter, system-ui, sans-serif; margin: 0; padding: 16px;
+         background: #fff; color: #111827; }
+  @media (prefers-color-scheme: dark) {
+    body { background: #1e1e1e; color: #f3f4f6; }
+    .note { color: #9ca3af; }
+  }
+  h2 { font-size: 16px; margin: 0 0 4px; color: #EA580C; }
+  .note { font-size: 12px; color: #6b7280; margin: 0 0 12px; }
+  button { display: block; width: 100%; margin: 8px 0; padding: 10px;
+           font-size: 14px; font-weight: 600; border: none; border-radius: 8px;
+           background: #EA580C; color: #fff; cursor: pointer; }
+  button:disabled { opacity: .5; cursor: default; }
+  button.secondary { background: #F3F4F6; color: #111827; }
+  #status { font-size: 12px; margin-top: 10px; min-height: 32px; color: #059669; }
+  #status.err { color: #DC2626; }
+</style>
+</head>
+<body>
+  <h2>GradeSpot Designer</h2>
+  <p class="note">Generates GradeSpot website designs on the canvas. No server needed.</p>
+  <button id="test">🧪 Test: draw sample hero</button>
+  <button class="secondary" disabled title="Coming after the design brief">Homepage (soon)</button>
+  <button class="secondary" disabled title="Coming after the design brief">All menu pages (soon)</button>
+  <div id="status"></div>
+  <script>
+    const status = document.getElementById("status");
+    document.getElementById("test").onclick = () => {
+      status.className = ""; status.textContent = "Drawing…";
+      parent.postMessage({ type: "test-hero" }, "*");
+    };
+    window.addEventListener("message", (e) => {
+      const m = e.data;
+      if (m && m.type === "done") {
+        status.className = m.ok ? "" : "err";
+        status.textContent = (m.ok ? "✓ " : "✗ ") + m.detail;
+      }
+    });
+  </script>
+</body>
+</html>
