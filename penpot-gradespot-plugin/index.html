@@ -35,7 +35,10 @@
     };
     window.addEventListener("message", (e) => {
       const m = e.data;
-      if (m && m.type === "done") {
+      if (!m) return;
+      if (m.type === "progress") {
+        status.className = ""; status.textContent = "⏳ " + m.detail;
+      } else if (m.type === "done") {
         status.className = m.ok ? "" : "err";
         status.textContent = (m.ok ? "✓ " : "✗ ") + m.detail;
       }
