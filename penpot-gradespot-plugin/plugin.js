@@ -74,14 +74,11 @@ function generateTestHero() {
   let shapes = 0;
   const count = (s) => { shapes++; return s; };
 
-  progress("Creating page…");
-  const page = penpot.createPage();
-  page.name = "GradeSpot - Test";
-  // Plugins can only modify the ACTIVE page, so switch to the new page first.
-  penpot.openPage(page);
-
   progress("Creating 1440×900 board…");
-  const board = penpot.createBoard(); // created on the new active page
+  // Draw on the currently active page: Penpot plugins can only modify the
+  // active page, and page switches don't take effect synchronously.
+  const targetPage = penpot.currentPage;
+  const board = penpot.createBoard();
   board.name = "Homepage - Test Hero";
   board.resize(1440, 900);
   board.x = 0; board.y = 0;
@@ -143,7 +140,7 @@ function generateTestHero() {
     count(label(board, "card " + i + " body", c[1], cx + 28, 730, 344, { size: 15, color: GRAY }));
   });
 
-  return { page: page.name, board: board.name, shapes: shapes };
+  return { page: targetPage ? targetPage.name : "current page", board: board.name, shapes: shapes };
 }
 
 // ---------- message handling ----------
