@@ -19,25 +19,30 @@
            background: #EA580C; color: #fff; cursor: pointer; }
   button.page { background: #F3F4F6; color: #111827; font-weight: 500; text-align: left;
            padding: 9px 12px; }
-  button.all { background: #111827; }
+  button.tool { background: #0F172A; }
   #status { font-size: 12px; margin-top: 10px; min-height: 32px; color: #059669; }
   #status.err { color: #DC2626; }
 </style>
 </head>
 <body>
-  <h2>GradeSpot Designer</h2>
-  <p class="note">Draws website page designs on the active Penpot page. Switch to the page you want first.</p>
-  <div class="sect">Site pages</div>
+  <h2>GradeSpot Designer v2</h2>
+  <p class="note">Redesign: portfolio-style menu, Inter font, dummy text, image &amp; logo placeholders. Draw on the active Penpot page.</p>
+  <div class="sect">Setup</div>
+  <button class="tool" id="newPage">📄 New page: Designs v2</button>
+  <div class="sect">Site pages (11)</div>
   <button class="page" data-page="home">🏠 Home</button>
   <button class="page" data-page="about">ℹ️ About Us</button>
-  <button class="page" data-page="courses">🎓 Courses</button>
-  <button class="page" data-page="course-detail">📄 Course Detail (template)</button>
   <button class="page" data-page="services">🛠️ Services</button>
-  <button class="page" data-page="contact">✉️ Contact</button>
+  <button class="page" data-page="courses">🎓 Courses</button>
+  <button class="page" data-page="ccna">📘 CCNA</button>
+  <button class="page" data-page="soc-analyst">🛡️ SOC Analyst</button>
+  <button class="page" data-page="digital-marketing">📣 Digital Marketing</button>
+  <button class="page" data-page="comptia-pentest">🔍 CompTIA Pentest+</button>
+  <button class="page" data-page="comptia-network">🌐 CompTIA Network+</button>
   <button class="page" data-page="team">👥 Team</button>
-  <button class="all" id="drawAll" disabled title="Draw pages one at a time instead — bulk draw can freeze the canvas">✨ Draw all pages (use single pages)</button>
+  <button class="page" data-page="contact">✉️ Contact</button>
   <div class="sect">Tools</div>
-  <button class="page" id="test">🧪 Test: draw sample hero</button>
+  <button class="page" id="test">🧪 Test: sample hero</button>
   <div id="status"></div>
   <script>
     const status = document.getElementById("status");
@@ -49,7 +54,7 @@
     document.querySelectorAll("button.page[data-page]").forEach((b) => {
       b.onclick = () => send("draw", { page: b.getAttribute("data-page") });
     });
-    document.getElementById("drawAll").onclick = () => send("draw", { page: "all" });
+    document.getElementById("newPage").onclick = () => send("new-page");
     document.getElementById("test").onclick = () => send("test-hero");
     window.addEventListener("message", (e) => {
       const m = e.data;
