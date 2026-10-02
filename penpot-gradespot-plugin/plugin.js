@@ -1,11 +1,14 @@
-// GradeSpot Designer v3.1 — Penpot plugin (no server needed).
-// Replicates the two reference sites' structure completely — headers, navbars,
-// footers and full section inventory on every page.
+// GradeSpot Designer v4 — Penpot plugin (no server needed).
+// v4: six new pages for the approved Axon sitemap — For Institutes, Pricing,
+// Why Choose Us, Testimonials, Student Certifications, Certificate Verification.
+// Navbar: adds Pricing link, CTA is now "For Institutes"; active-link logic
+// covers Resources children, all course keys, and Services children.
 // v3.1: draws each page in small async chunks (yielding to the renderer
 // between sections) so large boards can't wedge the Penpot tab.
 // RULE: structure/layout only — all copy is lorem ipsum dummy text and every
 // number, testimonial, date, fee, name, badge or contact detail is a bracketed
 // placeholder until Aravind confirms real facts. Never invent claims.
+// Allowed real facts: business phone +91 91826 54056, WhatsApp 919885189951.
 
 penpot.ui.open("GradeSpot Designer", "index.html?theme=" + penpot.theme, {
   width: 340,
@@ -38,7 +41,7 @@ const C = {
   bgGray: "#F9FAFB", border: "#E5E7EB", white: "#FFFFFF",
   navy: "#0F172A", navyBorder: "#1E293B", navyText: "#94A3B8",
   imgBg: "#E9EDF2", imgBorder: "#D1D5DB", imgLabel: "#9CA3AF",
-  green: "#059669",
+  green: "#059669", red: "#DC2626",
 };
 const W = 1440;
 const MX = 80;
@@ -150,7 +153,7 @@ function img(parent, name, x, y, w, h, caption) {
 }
 
 // ---------- NAVBAR: gsitssolutions.com menu, portfolio visual style ----------
-const NAV_LINKS = ["Home", "About Us", "Trainings", "Resources ▾", "Digital", "Services", "Contact Us"];
+const NAV_LINKS = ["Home", "About Us", "Trainings", "Resources ▾", "Digital", "Services", "Pricing", "Contact Us"];
 function navbar(board, y, active) {
   const h = 76;
   rect(board, "nav bg", 0, y, W, h, C.white);
@@ -160,15 +163,16 @@ function navbar(board, y, active) {
   NAV_LINKS.forEach((l) => {
     const plain = l.replace(" ▾", "");
     const on = (plain === active) ||
-      (plain === "Resources" && (active === "Team Members" || active === "Why Choose Us")) ||
-      (plain === "Trainings" && ["CCNA", "SOC Analyst", "Digital Marketing", "CompTIA Pentest+", "CompTIA Network+"].indexOf(active) >= 0);
+      (plain === "Resources" && ["Team Members", "Why Choose Us", "Testimonials", "Student Certifications", "Certificate Verification"].indexOf(active) >= 0) ||
+      (plain === "Trainings" && ["CCNA", "SOC Analyst", "Digital Marketing", "CompTIA Pentest+", "CompTIA Network+"].indexOf(active) >= 0) ||
+      (plain === "Services" && ["For Institutes", "Pricing"].indexOf(active) >= 0);
     label(board, "nav " + plain, l, lx, y + 27, 104,
       { size: 14, weight: on ? "700" : "500", color: on ? C.dark : C.gray });
     if (on) rect(board, "nav active " + plain, lx, y + 54, 30, 3, C.orange);
     lx += 98;
   });
-  const bw = 170;
-  button(board, "nav cta", W - MX - bw, y + 15, bw, 46, "Talk to a Trainer", C.orange, C.white);
+  const bw = 150;
+  button(board, "nav cta", W - MX - bw, y + 15, bw, 46, "For Institutes", C.orange, C.white);
   return y + h;
 }
 
@@ -1090,12 +1094,514 @@ function drawContact(board) {
   return runSteps(board, "Contact Us", steps);
 }
 
+// ---------- v4: B2B + Resources pages (chunked) ----------
+
+// Real tier data from the approved B2B package-tiers draft (2026-10-02).
+const TIERS = [
+  {
+    name: "Missed Enquiry Killer", tag: "WhatsApp Lead Automation",
+    setup: "₹7,999", monthly: "₹1,999", popular: false,
+    feats: [
+      "WhatsApp Cloud API setup",
+      "Instant auto-reply + lead capture",
+      "Counsellor alerts (WhatsApp + email)",
+      "1 admission broadcast / month",
+      "1,000 Meta conversations / mo",
+    ],
+  },
+  {
+    name: "Admissions on Autopilot", tag: "Automation + Follow-up",
+    setup: "₹14,999", monthly: "₹3,999", popular: true,
+    feats: [
+      "Everything in Tier 1",
+      "Qualification chatbot",
+      "Automated follow-up sequences",
+      "CRM-lite dashboard + attribution",
+      "2 numbers · 5,000 conversations / mo",
+      "Monthly performance review call",
+    ],
+  },
+  {
+    name: "Institute OS", tag: "Automation + LMS + Labs",
+    setup: "₹29,999", monthly: "₹7,999", popular: false,
+    feats: [
+      "Everything in Tier 2",
+      "Watermarked video LMS",
+      "Online test-series module",
+      "PXE thin-client lab setup",
+      "Priority support + quarterly review",
+    ],
+  },
+];
+
+function tierCards(board, name, y) {
+  const tw = (CW - 2 * 24) / 3, th = 680;
+  TIERS.forEach((t, i) => {
+    const bx = MX + i * (tw + 24);
+    rect(board, name + " " + i, bx, y, tw, th, C.white);
+    outlinedRect(board, name + " " + i + " border", bx, y, tw, th,
+      t.popular ? C.orange : C.border, t.popular ? 2 : 1);
+    let yy = y + 32;
+    if (t.popular) {
+      chip(board, name + " pop " + i, bx + 28, yy, "MOST POPULAR", C.white, C.orange);
+      yy += 52;
+    }
+    label(board, name + " tier " + i, "TIER " + (i + 1), bx + 28, yy, tw - 56,
+      { size: 13, weight: "700", color: C.orange });
+    label(board, name + " name " + i, t.name, bx + 28, yy + 24, tw - 56,
+      { size: 23, weight: "800" });
+    label(board, name + " tag " + i, t.tag, bx + 28, yy + 60, tw - 56,
+      { size: 14, color: C.gray });
+    label(board, name + " price " + i, t.monthly, bx + 28, yy + 104, tw - 56,
+      { size: 44, weight: "800" });
+    label(board, name + " per " + i, "/ month", bx + 28, yy + 156, tw - 56,
+      { size: 15, color: C.gray });
+    label(board, name + " setup " + i, t.setup + " one-time setup", bx + 28, yy + 184, tw - 56,
+      { size: 14, weight: "600" });
+    t.feats.forEach((f, j) => {
+      checkRow(board, name + " f " + i + "_" + j, bx + 28, yy + 232 + j * 44, tw - 56, f);
+    });
+    button(board, name + " cta " + i, bx + 28, y + th - 84, tw - 56, 52,
+      "Book a Demo", t.popular ? C.orange : C.dark, C.white);
+  });
+  return y + th;
+}
+
+function compareMatrix(board, name, y) {
+  const rows = [
+    ["WhatsApp Cloud API setup", 1, 1, 1],
+    ["Auto-reply + lead capture", 1, 1, 1],
+    ["Counsellor alerts", 1, 1, 1],
+    ["Admission broadcasts", "1 / mo", "4 / mo", "Unlimited"],
+    ["Qualification chatbot", 0, 1, 1],
+    ["Follow-up sequences", 0, 1, 1],
+    ["CRM-lite dashboard", 0, 1, 1],
+    ["Watermarked video LMS", 0, 0, 1],
+    ["Test-series module", 0, 0, 1],
+    ["PXE thin-client lab setup", 0, 0, 1],
+    ["Support", "Email", "WhatsApp", "Priority + quarterly review"],
+  ];
+  const colF = 560, colT = (CW - colF) / 3, rh = 52;
+  rect(board, name + " hbg", MX, y, CW, 56, C.navy);
+  label(board, name + " hf", "Features", MX + 28, y + 17, colF - 56,
+    { size: 15, weight: "700", color: C.white });
+  ["Tier 1", "Tier 2", "Tier 3"].forEach((t, i) => {
+    label(board, name + " ht " + i, t, MX + colF + i * colT, y + 17, colT,
+      { size: 15, weight: "700", color: C.white, align: "center" });
+  });
+  let yy = y + 56;
+  rows.forEach((r, i) => {
+    if (i % 2 === 1) rect(board, name + " zebra " + i, MX, yy, CW, rh, C.bgGray);
+    outlinedRect(board, name + " row " + i, MX, yy, CW, rh, C.border, 1);
+    label(board, name + " f " + i, r[0], MX + 28, yy + 15, colF - 56,
+      { size: 15, weight: "600" });
+    for (let j = 1; j <= 3; j++) {
+      const v = r[j];
+      const txt = v === 1 ? "✓" : v === 0 ? "—" : v;
+      label(board, name + " c " + i + "_" + j, txt, MX + colF + (j - 1) * colT, yy + 13, colT,
+        { size: v === 1 ? 20 : 14, weight: "700", color: v === 1 ? C.green : C.gray, align: "center" });
+    }
+    yy += rh;
+  });
+  return yy;
+}
+
+// ---------- FOR INSTITUTES (chunked) ----------
+function drawForInstitutes(board) {
+  const steps = [
+    (b, y) => navbar(b, y, "For Institutes"),
+
+    // hero — pain-killer headline + dual CTA
+    (b, y) => {
+      const hh = 620;
+      rect(b, "ihero bg", 0, y, W, hh, C.navy);
+      label(b, "ihero h1", "Stop losing admission enquiries after hours.",
+        MX, y + 120, 700, { size: 52, weight: "800", color: C.white });
+      label(b, "ihero sub", LOREM_P, MX, y + 300, 620, { size: 18, color: C.navyText });
+      button(b, "ihero cta1", MX, y + 420, 220, 54, "Book a Demo", C.orange, C.white);
+      button(b, "ihero cta2", MX + 236, y + 420, 220, 54, "Start Free Trial", C.white, C.orange);
+      label(b, "ihero micro", "No credit card required  •  Cancel anytime",
+        MX, y + 492, 620, { size: 14, color: C.navyText });
+      img(b, "ihero image", MX + 780, y + 110, 500, 400, "PRODUCT IMAGE");
+      return y + hh;
+    },
+
+    // problem → solution (3 pain cards)
+    (b, y) => {
+      const yy = secHead(b, "pain", y + 72, "The problem", "Sound familiar?", "");
+      const pw = (CW - 2 * 24) / 3;
+      ["Missed enquiries", "Manual follow-ups", "No visibility"].forEach((p, i) => {
+        const bx = MX + i * (pw + 24);
+        rect(b, "pain " + i, bx, yy, pw, 240, C.white);
+        outlinedRect(b, "pain " + i + " border", bx, yy, pw, 240, C.border, 1);
+        rect(b, "pain icon " + i, bx + 28, yy + 28, 48, 48, C.orangeSoft);
+        label(b, "pain t " + i, p, bx + 28, yy + 96, pw - 56, { size: 20, weight: "700" });
+        label(b, "pain d " + i, LOREM_S, bx + 28, yy + 130, pw - 56,
+          { size: 14, color: C.gray });
+      });
+      return yy + 240 + 72;
+    },
+
+    // products teaser
+    (b, y) => {
+      const yy = secHead(b, "iprod", y, "Products", "Everything an institute needs", "");
+      const pw = (CW - 2 * 24) / 3;
+      TIERS.forEach((t, i) => {
+        const bx = MX + i * (pw + 24);
+        rect(b, "iprod " + i, bx, yy, pw, 260, C.white);
+        outlinedRect(b, "iprod " + i + " border", bx, yy, pw, 260, C.border, 1);
+        label(b, "iprod tier " + i, "TIER " + (i + 1), bx + 28, yy + 28, pw - 56,
+          { size: 13, weight: "700", color: C.orange });
+        label(b, "iprod name " + i, t.name, bx + 28, yy + 52, pw - 56,
+          { size: 21, weight: "800" });
+        label(b, "iprod price " + i, t.monthly + " / mo", bx + 28, yy + 120, pw - 56,
+          { size: 26, weight: "800" });
+        label(b, "iprod link " + i, "View pricing →", bx + 28, yy + 196, 200,
+          { size: 15, weight: "700", color: C.orange });
+      });
+      return yy + 260 + 72;
+    },
+
+    // how it works — 5 steps
+    (b, y) => {
+      const yy = secHead(b, "isteps", y, "How it works", "Live in 5 steps", "");
+      return processSteps(b, "isteps", yy,
+        [["01", "Book a Demo", LOREM_S], ["02", "We Map Your Funnel", LOREM_S],
+         ["03", "Setup & Integration", LOREM_S], ["04", "Team Training", LOREM_S],
+         ["05", "Go Live", LOREM_S]]) + 72;
+    },
+
+    // proof stack: logo wall → stat blocks → case studies
+    (b, y) => logoStrip(b, "iware", y + 24, "TRUSTED BY INSTITUTES", 4) + 48,
+    (b, y) => statsBand(b, "istats", y,
+      [["[X%]", "More enquiries captured"], ["[X%]", "Faster response time"],
+       ["[X]", "Institutes onboard"], ["[X]", "Messages automated"]]),
+    (b, y) => {
+      const yy = secHead(b, "icase", y + 72, "Case studies", "Results our pilots see", "");
+      const cw = (CW - 24) / 2;
+      for (let i = 0; i < 2; i++) {
+        const bx = MX + i * (cw + 24);
+        rect(b, "icase " + i, bx, yy, cw, 300, C.white);
+        outlinedRect(b, "icase " + i + " border", bx, yy, cw, 300, C.border, 1);
+        img(b, "icase img " + i, bx + 28, yy + 28, cw - 56, 150, "IMAGE");
+        label(b, "icase n " + i, "[Institute name]", bx + 28, yy + 194, cw - 56,
+          { size: 18, weight: "700" });
+        label(b, "icase r " + i, "[+X% admission enquiries]", bx + 28, yy + 224, cw - 56,
+          { size: 15, weight: "700", color: C.green });
+      }
+      return yy + 300 + 72;
+    },
+
+    // integrations wall
+    (b, y) => {
+      let yy = secHead(b, "iint", y, "Integrations", "Plays well with your stack", "");
+      let cx = MX;
+      ["WhatsApp", "[CRM]", "[SMS gateway]", "[Payment gateway]", "[Google Sheets]"].forEach((t, i) => {
+        const w = chip(b, "iint " + i, cx, yy, t, C.dark, C.white);
+        cx += w + 12;
+      });
+      return yy + 36 + 72;
+    },
+
+    // pricing teaser
+    (b, y) => {
+      const ph = 280;
+      rect(b, "iprice bg", 0, y, W, ph, C.orangeSoft);
+      label(b, "iprice t", "Simple pricing, no surprises.", MX, y + 70, 700,
+        { size: 30, weight: "700" });
+      label(b, "iprice d", "Three tiers. Monthly billing. Cancel anytime.", MX, y + 118, 640,
+        { size: 15, color: C.gray });
+      button(b, "iprice cta", W - MX - 260, y + 113, 260, 54, "View Pricing", C.orange, C.white);
+      return y + ph;
+    },
+
+    // FAQ
+    (b, y) => {
+      const yy = secHead(b, "ifaq", y + 72, "FAQ", "Questions institutes ask", "");
+      return faqList(b, "ifaq", yy, [LOREM_Q, LOREM_Q, LOREM_Q, LOREM_Q]) + 72;
+    },
+
+    // demo booking form (4 fields)
+    (b, y) => {
+      const fh = 620;
+      rect(b, "demo bg", 0, y, W, fh, C.bgGray);
+      const yy = y + 64;
+      label(b, "demo h2", "Book your demo", MX, yy, 560, { size: 32, weight: "700" });
+      label(b, "demo d", LOREM_S, MX, yy + 52, 520, { size: 15, color: C.gray });
+      label(b, "demo call", "Prefer to talk? Call +91 91826 54056", MX, yy + 140, 560,
+        { size: 16, weight: "700" });
+      label(b, "demo wa", "WhatsApp: 919885189951", MX, yy + 170, 560,
+        { size: 16, weight: "600", color: C.green });
+      button(b, "demo trial", MX, yy + 240, 260, 54, "Start Free Trial", C.dark, C.white);
+      rect(b, "demo form", MX + 660, yy, 620, 480, C.white);
+      outlinedRect(b, "demo form border", MX + 660, yy, 620, 480, C.border, 1);
+      ["Your name", "Institute name", "Email address", "Phone number"].forEach((f, i) => {
+        const fy = yy + 36 + i * 92;
+        label(b, "demo fld " + i, f, MX + 700, fy, 540, { size: 14, weight: "600" });
+        outlinedRect(b, "demo box " + i, MX + 700, fy + 26, 540, 48, C.border, 1);
+        label(b, "demo ph " + i, "Lorem ipsum", MX + 716, fy + 41, 400,
+          { size: 14, color: C.lightGray });
+      });
+      button(b, "demo send", MX + 700, yy + 36 + 4 * 92, 240, 52, "Book a Demo", C.orange, C.white);
+      return y + fh;
+    },
+
+    (b, y) => {
+      const y2 = footer(b, y);
+      whatsappFloat(b, y2);
+      return y2;
+    },
+  ];
+  return runSteps(board, "For Institutes", steps);
+}
+
+// ---------- PRICING (chunked) ----------
+function drawPricing(board) {
+  const steps = [
+    (b, y) => navbar(b, y, "Pricing"),
+    (b, y) => pageHero(b, y, "Pricing",
+      "Simple pricing, no surprises. Meta's per-conversation WhatsApp fees are passed through at cost on every tier."),
+
+    (b, y) => {
+      const yy = secHead(b, "tiers", y + 72, "Plans", "Choose your plan", "");
+      return tierCards(b, "tiers", yy) + 72;
+    },
+
+    (b, y) => {
+      const yy = secHead(b, "cmp", y, "Compare", "Compare plans", "");
+      return compareMatrix(b, "cmp", yy) + 72;
+    },
+
+    // pilot offer band
+    (b, y) => {
+      const ph = 300;
+      rect(b, "pilot bg", 0, y, W, ph, C.navy);
+      label(b, "pilot t", "Founding pilot offer", MX, y + 64, 700,
+        { size: 30, weight: "700", color: C.white });
+      label(b, "pilot d", "First 3 institutes: 50% off the setup fee in exchange for a quantified case study. Monthly billing, cancel anytime.",
+        MX, y + 114, 640, { size: 15, color: C.navyText });
+      button(b, "pilot cta", W - MX - 260, y + 123, 260, 54, "Claim Pilot Offer", C.orange, C.white);
+      return y + ph;
+    },
+
+    // FAQ
+    (b, y) => {
+      const yy = secHead(b, "pfaq", y + 72, "FAQ", "Pricing FAQs", "");
+      return faqList(b, "pfaq", yy, [
+        "What are Meta's per-message charges?",
+        LOREM_Q, LOREM_Q, LOREM_Q,
+      ]) + 72;
+    },
+
+    (b, y) => {
+      let y2 = ctaBand(b, y, "Ready to automate admissions?", LOREM_S, "Book a Demo");
+      y2 = footer(b, y2);
+      whatsappFloat(b, y2);
+      return y2;
+    },
+  ];
+  return runSteps(board, "Pricing", steps);
+}
+
+// ---------- WHY CHOOSE US (chunked) ----------
+function drawWhyChooseUs(board) {
+  const steps = [
+    (b, y) => navbar(b, y, "Why Choose Us"),
+    (b, y) => pageHero(b, y, "Why Choose Us", LOREM_P),
+
+    // differentiator cards
+    (b, y) => {
+      const yy = secHead(b, "wcu", y + 72, "Differentiators", "Why learners choose GradeSpot", "");
+      const diffs = ["[Differentiator 1]", "[Differentiator 2]", "[Differentiator 3]",
+                     "[Differentiator 4]", "[Differentiator 5]", "[Differentiator 6]"];
+      const dw = (CW - 2 * 24) / 3;
+      diffs.forEach((d, i) => {
+        const col = i % 3, row = Math.floor(i / 3);
+        const bx = MX + col * (dw + 24), by = yy + row * 280;
+        rect(b, "wcu " + i, bx, by, dw, 256, C.white);
+        outlinedRect(b, "wcu " + i + " border", bx, by, dw, 256, C.border, 1);
+        rect(b, "wcu icon " + i, bx + 28, by + 28, 52, 52, C.orangeSoft);
+        label(b, "wcu t " + i, d, bx + 28, by + 100, dw - 56, { size: 20, weight: "700" });
+        label(b, "wcu d " + i, LOREM_P, bx + 28, by + 134, dw - 56,
+          { size: 14, color: C.gray });
+      });
+      return yy + 2 * 280 + 72;
+    },
+
+    // proof: placeholder stats band
+    (b, y) => statsBand(b, "wstats", y,
+      [["[0000]", "Lorem ipsum"], ["[0000]", "Dolor sit"], ["[000]", "Amet"], ["[00]", "Consectetur"]]),
+
+    (b, y) => {
+      let y2 = ctaBand(b, y, "Experience the GradeSpot difference", LOREM_S, "Explore Trainings");
+      y2 = footer(b, y2);
+      whatsappFloat(b, y2);
+      return y2;
+    },
+  ];
+  return runSteps(board, "Why Choose Us", steps);
+}
+
+// ---------- TESTIMONIALS (chunked) ----------
+function drawTestimonials(board) {
+  const steps = [
+    (b, y) => navbar(b, y, "Testimonials"),
+    (b, y) => pageHero(b, y, "Testimonials", LOREM_P),
+
+    // wall of love
+    (b, y) => {
+      const yy = secHead(b, "tst", y + 72, "Wall of love", "What learners say", "");
+      let y2 = testimonialCards(b, "tst", yy, 3) + 48;
+      y2 = testimonialCards(b, "tst2", y2, 3) + 24;
+      label(b, "tst note", "[Real learner testimonials will appear here — layout sample only]",
+        MX, y2, CW, { size: 14, color: C.lightGray, align: "center" });
+      return y2 + 48 + 48;
+    },
+
+    // video testimonials
+    (b, y) => {
+      const yy = secHead(b, "tvid", y, "Watch", "Video testimonials", "");
+      const vw = (CW - 2 * 24) / 3;
+      for (let i = 0; i < 3; i++) {
+        const bx = MX + i * (vw + 24);
+        img(b, "tvid " + i, bx, yy, vw, 300, "VIDEO");
+        label(b, "tvid n " + i, "[Full name]", bx, yy + 320, vw, { size: 16, weight: "700" });
+        label(b, "tvid r " + i, "[Course / role]", bx, yy + 346, vw,
+          { size: 13, color: C.lightGray });
+      }
+      return yy + 380 + 72;
+    },
+
+    (b, y) => {
+      let y2 = ctaBand(b, y, "Your story could be next", LOREM_S, "Explore Trainings");
+      y2 = footer(b, y2);
+      whatsappFloat(b, y2);
+      return y2;
+    },
+  ];
+  return runSteps(board, "Testimonials", steps);
+}
+
+// ---------- STUDENT CERTIFICATIONS (chunked) ----------
+function drawCertifications(board) {
+  const steps = [
+    (b, y) => navbar(b, y, "Student Certifications"),
+    (b, y) => pageHero(b, y, "Student Certifications", LOREM_P),
+
+    // certificate gallery
+    (b, y) => {
+      const yy = secHead(b, "cert", y + 72, "Certified", "Our certified learners", "");
+      const cw = (CW - 2 * 24) / 3;
+      for (let i = 0; i < 6; i++) {
+        const col = i % 3, row = Math.floor(i / 3);
+        const bx = MX + col * (cw + 24), by = yy + row * 460;
+        rect(b, "cert " + i, bx, by, cw, 436, C.white);
+        outlinedRect(b, "cert " + i + " border", bx, by, cw, 436, C.border, 1);
+        img(b, "cert img " + i, bx + 28, by + 28, cw - 56, 260, "CERTIFICATE");
+        label(b, "cert n " + i, "[Student name]", bx + 28, by + 308, cw - 56,
+          { size: 18, weight: "700" });
+        label(b, "cert c " + i, "[Course]", bx + 28, by + 336, cw - 56,
+          { size: 14, weight: "600", color: C.orange });
+        label(b, "cert yr " + i, "[Year]", bx + 28, by + 362, cw - 56,
+          { size: 13, color: C.lightGray });
+      }
+      return yy + 2 * 460 + 72;
+    },
+
+    // verify band
+    (b, y) => {
+      const vh = 260;
+      rect(b, "vband bg", 0, y, W, vh, C.navy);
+      label(b, "vband t", "Employers: verify any certificate instantly.", MX, y + 70, 700,
+        { size: 28, weight: "700", color: C.white });
+      label(b, "vband d", LOREM_S, MX, y + 118, 640, { size: 15, color: C.navyText });
+      button(b, "vband cta", W - MX - 260, y + 103, 260, 54, "Verify Now", C.orange, C.white);
+      return y + vh;
+    },
+
+    (b, y) => {
+      const y2 = footer(b, y);
+      whatsappFloat(b, y2);
+      return y2;
+    },
+  ];
+  return runSteps(board, "Student Certifications", steps);
+}
+
+// ---------- CERTIFICATE VERIFICATION (chunked) ----------
+function drawVerify(board) {
+  const steps = [
+    (b, y) => navbar(b, y, "Certificate Verification"),
+    (b, y) => pageHero(b, y, "Certificate Verification", LOREM_P),
+
+    // lookup tool with sample result states
+    (b, y) => {
+      let yy = secHead(b, "lookup", y + 72, "Verify", "Check a certificate", "");
+      const lw = 720, lx = (W - lw) / 2;
+      rect(b, "lookup card", lx, yy, lw, 200, C.white);
+      outlinedRect(b, "lookup card border", lx, yy, lw, 200, C.border, 1);
+      label(b, "lookup label", "Certificate ID", lx + 40, yy + 36, 400,
+        { size: 15, weight: "600" });
+      outlinedRect(b, "lookup box", lx + 40, yy + 66, 440, 54, C.border, 1);
+      label(b, "lookup ph", "[e.g. GS-2026-0001]", lx + 58, yy + 83, 400,
+        { size: 15, color: C.lightGray });
+      button(b, "lookup btn", lx + 500, yy + 66, 180, 54, "Verify", C.orange, C.white);
+      yy += 200 + 56;
+
+      // sample state: verified
+      rect(b, "vs ok", lx, yy, lw, 240, C.white);
+      outlinedRect(b, "vs ok border", lx, yy, lw, 240, C.green, 2);
+      label(b, "vs ok badge", "✓ VERIFIED — SAMPLE STATE", lx + 40, yy + 28, 500,
+        { size: 14, weight: "800", color: C.green });
+      label(b, "vs ok n", "[Student full name]", lx + 40, yy + 66, 500,
+        { size: 22, weight: "700" });
+      label(b, "vs ok c", "[Course name]  •  [Issue date]  •  [Certificate ID]",
+        lx + 40, yy + 104, 640, { size: 15, color: C.gray });
+
+      yy += 240 + 32;
+      // sample state: not found
+      rect(b, "vs no", lx, yy, lw, 190, C.white);
+      outlinedRect(b, "vs no border", lx, yy, lw, 190, C.red, 2);
+      label(b, "vs no badge", "✗ NOT FOUND — SAMPLE STATE", lx + 40, yy + 28, 500,
+        { size: 14, weight: "800", color: C.red });
+      label(b, "vs no d", "[No record matches this ID. Check the ID and try again.]",
+        lx + 40, yy + 66, 640, { size: 15, color: C.gray });
+      return yy + 190 + 72;
+    },
+
+    // support band (real contact facts)
+    (b, y) => {
+      const sh = 280;
+      rect(b, "vhelp bg", 0, y, W, sh, C.bgGray);
+      label(b, "vhelp t", "Didn't find your certificate?", MX, y + 70, 700,
+        { size: 28, weight: "700" });
+      label(b, "vhelp d", "Call +91 91826 54056  •  WhatsApp 919885189951  •  [Email address]",
+        MX, y + 118, 800, { size: 16, color: C.gray });
+      button(b, "vhelp cta", W - MX - 260, y + 113, 260, 54, "Contact Us", C.orange, C.white);
+      return y + sh;
+    },
+
+    (b, y) => {
+      const y2 = footer(b, y);
+      whatsappFloat(b, y2);
+      return y2;
+    },
+  ];
+  return runSteps(board, "Certificate Verification", steps);
+}
+
 // ---------- dispatcher (async) ----------
 const PAGES = {
   home: ["Home", drawHome],
   about: ["About Us", drawAbout],
   trainings: ["Trainings", drawTrainings],
   services: ["Services", drawServices],
+  "for-institutes": ["For Institutes", drawForInstitutes],
+  pricing: ["Pricing", drawPricing],
+  "why-choose-us": ["Why Choose Us", drawWhyChooseUs],
+  testimonials: ["Testimonials", drawTestimonials],
+  certifications: ["Student Certifications", drawCertifications],
+  verify: ["Certificate Verification", drawVerify],
   team: ["Team Members", drawTeam],
   contact: ["Contact Us", drawContact],
 };
@@ -1127,10 +1633,10 @@ penpot.ui.onMessage((message) => {
           detail: "Drew '" + r.board + "' (" + r.height + "px tall) on this page.",
         });
       } else if (message.type === "new-page") {
-        penpot.createPage("Designs v3");
+        penpot.createPage("Designs v4");
         penpot.ui.sendMessage({
           type: "done", ok: true,
-          detail: "Created page 'Designs v3' — click it in the pages panel, then draw each board.",
+          detail: "Created page 'Designs v4' — click it in the pages panel, then draw each board.",
         });
       } else if (message.type === "test-hero") {
         progress("Drawing test hero…");
