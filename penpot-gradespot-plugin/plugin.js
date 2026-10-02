@@ -403,6 +403,7 @@ function drawHome(board) {
   y = servicesGrid(board, y);
   y = coursesPreview(board, y);
   y = batchesSection(board, y);
+  y = careerSection(board, y);
   y = statsBand(board, y);
   y = whyUs(board, y);
   y = stepsSection(board, y, "From enquiry to job-ready",
@@ -728,6 +729,7 @@ const PAGES = {
   "course-detail": ["Course Detail (template)", drawCourseDetail],
   services: ["Services", drawServices],
   contact: ["Contact", drawContact],
+  team: ["Team", drawTeam],
 };
 
 function drawSitePage(key) {
@@ -790,3 +792,84 @@ penpot.ui.onMessage((message) => {
   }
   // "test-hero" is handled by the earlier listener; everything else ignored
 });
+
+// ---------- career support (CyberAegis-inspired structure, zero borrowed claims) ----------
+function careerSection(board, y) {
+  const h = 560;
+  rect(board, "career bg", 0, y, W, h, C.bgGray);
+  let yy = y + 72;
+  label(board, "career eyebrow", "CAREER SUPPORT", MX, yy, 600,
+    { size: 13, weight: "700", color: C.orange });
+  label(board, "career h2", "From learning to getting hired", MX, yy + 30, 600,
+    { size: 36, weight: "700" });
+  label(board, "career sub", "Structured career preparation built into every program.",
+    MX, yy + 82, 560, { size: 16, color: C.gray });
+  const items = ["Resume building", "Mock interviews", "LinkedIn profile optimization",
+    "Soft-skills coaching", "1:1 mentorship", "Job-search guidance"];
+  items.forEach((t, i) => {
+    const by = yy + 140 + i * 46;
+    rect(board, "career dot " + i, MX, by + 2, 22, 22, C.white);
+    label(board, "career check " + i, "✓", MX, by, 22,
+      { size: 15, weight: "700", color: C.orange, align: "center" });
+    label(board, "career item " + i, t, MX + 36, by, 520, { size: 16 });
+  });
+  // right: outcomes card (placeholders only — no borrowed numbers)
+  rect(board, "career card", MX + 680, yy, 600, 416, C.navy);
+  label(board, "career card t", "Career outcomes", MX + 724, yy + 44, 520,
+    { size: 24, weight: "700", color: C.white });
+  label(board, "career card d",
+    "Verified placement numbers and hiring-partner logos appear here once confirmed.",
+    MX + 724, yy + 88, 512, { size: 15, color: C.lightGray });
+  [["—", "Career Support"], ["—", "Hiring Partners"], ["—", "Mock Interviews"]].forEach((s, i) => {
+    const bx = MX + 724 + i * 170;
+    label(board, "career stat n " + i, s[0], bx, yy + 190, 160,
+      { size: 40, weight: "700", color: C.white, align: "center" });
+    label(board, "career stat l " + i, s[1], bx, yy + 242, 160,
+      { size: 13, color: C.lightGray, align: "center" });
+  });
+  button(board, "career cta", MX + 724, yy + 316, 280, 52,
+    "Start Your Career Journey", C.orange, C.white);
+  return y + h;
+}
+
+// ---------- TEAM page (matches GradeSpot's Team Members page) ----------
+function drawTeam(board) {
+  let y = 0;
+  y = navbar(board, y, "About");
+  y = pageHero(board, y, "Our team", "Meet the leadership",
+    "The people guiding GradeSpot's training and services.");
+  let yy = y + 72;
+  for (let i = 0; i < 3; i++) {
+    const bx = MX + i * 427;
+    rect(board, "tm " + i, bx, yy, 403, 360, C.white);
+    outlinedRect(board, "tm " + i + " border", bx, yy, 403, 360, C.border, 1);
+    rect(board, "tm photo " + i, bx + 28, yy + 28, 120, 120, C.bgGray);
+    label(board, "tm photo label " + i, "[Photo]", bx + 28, yy + 80, 120,
+      { size: 14, color: C.lightGray, align: "center" });
+    label(board, "tm name " + i, "[Full name]", bx + 164, yy + 48, 211,
+      { size: 20, weight: "700" });
+    label(board, "tm role " + i, "[Role / title]", bx + 164, yy + 80, 211,
+      { size: 14, color: C.orange, weight: "700" });
+    label(board, "tm bio " + i,
+      "[Short bio — background, expertise, and what they lead at GradeSpot. To be confirmed.]",
+      bx + 28, yy + 172, 347, { size: 14, color: C.gray });
+    label(board, "tm social " + i, "[LinkedIn profile]", bx + 28, yy + 300, 240,
+      { size: 14, weight: "700", color: C.orange });
+  }
+  y = yy + 360 + 72;
+  // values strip
+  let vy = secHead(board, "tvalues", y, "Culture", "What we stand for", "");
+  ["Practical First", "Honest Guidance", "Student Success"].forEach((v, i) => {
+    const bx = MX + i * 427;
+    rect(board, "tval " + i, bx, vy, 403, 140, C.orangeSoft);
+    label(board, "tval t " + i, v, bx + 28, vy + 40, 347,
+      { size: 20, weight: "700", align: "center" });
+    label(board, "tval d " + i, "[One-line description.]", bx + 28, vy + 76, 347,
+      { size: 14, color: C.gray, align: "center" });
+  });
+  y = vy + 140 + 72;
+  y = ctaBand(board, y, "Want to join the team?",
+    "We are always looking for passionate trainers and engineers.");
+  y = footer(board, y);
+  return y;
+}
