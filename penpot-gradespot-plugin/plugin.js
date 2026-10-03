@@ -1648,6 +1648,18 @@ penpot.ui.onMessage((message) => {
         img(board, "test image", MX, 160, 600, 400, "TEST IMAGE");
         footer(board, 620);
         penpot.ui.sendMessage({ type: "done", ok: true, detail: "Test hero drawn." });
+      } else if (message.type === "draw5") {
+        const r = await drawV5Page(message.page);
+        penpot.ui.sendMessage({
+          type: "done", ok: true,
+          detail: "Drew v5 '" + r.board + "' (" + r.height + "px tall) on this page.",
+        });
+      } else if (message.type === "new-page5") {
+        penpot.createPage("Designs v5 — Next.js + Carbon");
+        penpot.ui.sendMessage({
+          type: "done", ok: true,
+          detail: "Created page 'Designs v5 — Next.js + Carbon' — click it in the pages panel, then draw each board.",
+        });
       }
     } catch (err) {
       penpot.ui.sendMessage({
@@ -1657,3 +1669,1087 @@ penpot.ui.onMessage((message) => {
     }
   })();
 });
+
+// ==================== v5 — Designs v5: Next.js + Carbon ====================
+// Real verified content (gsitssolutions.com audit 2026-10-03) + exported
+// design tokens. Every board carries a route strip: Next.js route, the
+// app-router file, and the Carbon component mapping for that page.
+// Carbon = IBM Carbon Design System (@carbon/react). Theme note: keep
+// Carbon's spacing/type scale; GradeSpot brand tokens below override the
+// interactive/brand tokens in a custom Carbon theme (custom-theme.scss).
+
+const T5 = {
+  orange: "#F7631B", orangeLight: "#F98238", navy: "#0E2B3D",
+  ink: "#111827", body: "#666666", muted: "#7A7A7A", sec: "#54595F",
+  bgLight: "#F3F7FD", tint: "#EDF5FF", border: "#E7E7E7", borderD: "#DDDDDD",
+  white: "#FFFFFF", black: "#000000", green: "#059669",
+  footLink: "#9CA3AF", imgBg: "#E9EDF2", dark: "#0E2B3D",
+};
+const W5 = 1440, MX5 = 80, CW5 = W5 - MX5 * 2;
+const MW5 = 390, MMX5 = 20, MCW5 = MW5 - MMX5 * 2;
+
+// ---------- verified content ----------
+const DATA5 = {
+  stats: [["1,200+", "Certified Learners"], ["1,500+", "Students Enrolled"],
+          ["250+", "Interns"], ["12", "Web Projects"], ["9 yrs", "Experience"]],
+  badges: ["ISO 9001:2015 Certified", "AICTE-Approved Internships"],
+  phones: ["+91 91826 54056", "+91 88866 60597"],
+  emails: ["info@gsitssolutions.com", "hr@gsitssolutions.com"],
+  address: "16-126, 2nd Floor, Road No.1, Sri Krishna Nagar, Near Sai Baba Temple, Dilsukhnagar, Hyderabad 500060",
+  hours: "Office hours: 8:00 AM – 9:00 PM",
+  courses: [
+    { key: "soc-analyst", name: "SOC Analyst Training", tag: "Bestseller · 90-day",
+      blurb: "Threat detection & incident response with Splunk, IBM QRadar and Microsoft Sentinel. Free EC-Council C|SA exam voucher." },
+    { key: "ccna", name: "CCNA 200-301", tag: "Networking",
+      blurb: "Networking fundamentals to enterprise routing & switching, with hands-on labs." },
+    { key: "cyber-security-professional", name: "Cyber Security Professional", tag: "Career track",
+      blurb: "End-to-end cybersecurity program — from fundamentals to SOC-ready skills." },
+    { key: "azure-administrator", name: "Azure Administrator (AZ-104)", tag: "Cloud",
+      blurb: "Deploy, manage and monitor Azure infrastructure. Cleared by our learners." },
+    { key: "aws-cloud", name: "AWS Cloud", tag: "Cloud",
+      blurb: "AWS architecture & services on the Solutions Architect track." },
+    { key: "comptia-pentest-plus", name: "CompTIA Pentest+", tag: "Security",
+      blurb: "Penetration testing — planning, exploitation and reporting." },
+    { key: "comptia-network-plus", name: "CompTIA Network+", tag: "Networking",
+      blurb: "Vendor-neutral networking certification track." },
+    { key: "digital-marketing", name: "Digital Marketing", tag: "Marketing",
+      blurb: "SEO, ads and analytics for real businesses." },
+    { key: "web-development", name: "Web Development", tag: "Development",
+      blurb: "Modern web development — design to deployment." },
+    { key: "ceh", name: "CEH — Certified Ethical Hacker", tag: "Planned",
+      blurb: "Ethical hacking certification track. Launching soon.", planned: true },
+    { key: "aws-devops", name: "AWS + DevOps", tag: "Planned",
+      blurb: "Cloud + DevOps tooling track. Launching soon.", planned: true },
+  ],
+  testimonials: [
+    ["Naveen Bhaskari", "SOC Analyst @ Wipro", "The practical approach and supportive trainers made all the difference. Their guidance helped me land a job at Wipro as a SOC Analyst."],
+    ["Shiva Gottam", "Cleared AZ-104", "I cleared my AZ-104 after the Azure Administrator training. Practical teaching with real-time examples."],
+    ["Rohith Kumar", "AWS Solutions Architect", "Learned AWS Cloud and achieved my AWS Solutions Architect certification. Highly recommended."],
+    ["Stanes Lovelene Bittari", "CCNA 200-301 & AZ-900", "Completed my CCNA 200-301 and AZ-900 here. Good assistance in certification exams too."],
+    ["Riyaz Basha Shaik", "Cyber Security Professional", "Very hands-on teaching — even complex topics were easy to understand."],
+    ["Kruthi Krishna Dwaraka", "Cloud certifications", "Learning Cloud at GradeSpot added so much value. Cleared my cloud certifications."],
+    ["Network Administrator", "CCNA learner", "The CCNA course was amazing — knowledgeable trainers, hands-on labs and real-world examples."],
+  ],
+  team: [
+    ["Nikhil Duth D", "Founder & MD"],
+    ["Aravind Mutthe", "Co-Founder"],
+    ["Name TBD", "Sr. Security Engineer & Technical Trainer"],
+    ["Name TBD", "Sr. Security Engineer & Technical Trainer"],
+    ["Name TBD", "Sr. Security Engineer & Technical Trainer"],
+    ["Name TBD", "Sr. Security Engineer & Technical Trainer"],
+  ],
+  services: [
+    ["Corporate Trainings", "Job-ready training across IT technologies, for students and corporates."],
+    ["Cybersecurity Services", "Security assessments and solutions for diverse organizations."],
+    ["Web Development", "Cost-effective, premium web design and development."],
+    ["Digital Marketing", "SEO, ads and content that grow online presence."],
+    ["Network Infrastructure", "Design and build of robust network infrastructure."],
+    ["Logo Designing", "Brand identities and creative design work."],
+  ],
+  products: [
+    ["WhatsApp Lead Automation", "Every enquiry answered in seconds, 24×7 — even at 2 AM."],
+    ["Video LMS", "Your watermarked course library, hosted and managed for you."],
+    ["PXE Lab Setup", "Boot 30 systems from one server. Zero per-PC installs."],
+  ],
+  tiers: [
+    ["Starter", "₹7,999", "one-time setup", ["WhatsApp automation", "Lead dashboard", "Email support"]],
+    ["Growth", "₹14,999", "one-time setup", ["Everything in Starter", "Video LMS included", "Priority support"]],
+    ["Scale", "₹29,999", "one-time setup", ["Everything in Growth", "PXE lab setup", "Dedicated manager"]],
+  ],
+  faqs: [
+    ["Do you offer online and offline classes?", "Yes — classroom training in Dilsukhnagar, Hyderabad, plus live online batches."],
+    ["Will I get placement assistance?", "Career tracks include resume guidance, mock interviews and hiring-partner connects."],
+    ["Are the trainers working professionals?", "Yes — our trainers are working security engineers and industry practitioners."],
+    ["How do I verify a certificate?", "Open the Certificate Verification page and enter your certificate ID."],
+  ],
+  navLinks: ["Home", "Trainings ▾", "For Businesses", "For Institutes", "Pricing", "About", "Contact"],
+};
+
+// ---------- v5 helpers ----------
+function v5board(name, vw) {
+  vw = vw || W5;
+  const b = penpot.createBoard();
+  b.name = name; b.x = 0; b.y = 0;
+  b.resize(vw, 400);
+  b.fills = [{ fillColor: T5.white }];
+  return b;
+}
+function routeStrip(board, route, file, carbon, vw) {
+  vw = vw || W5;
+  rect(board, "route bg", 0, 0, vw, 46, T5.navy);
+  label(board, "route", "ROUTE " + route + "    ·    " + file + "    ·    Carbon: " + carbon,
+    20, 14, vw - 40, { size: 12, weight: "700", color: T5.white });
+  return 46;
+}
+function devTag(board, x, y, text, w) {
+  w = w || 320;
+  rect(board, "devtag bg " + text, x, y, w, 26, T5.tint);
+  label(board, "devtag " + text, text, x + 10, y + 5, w - 20,
+    { size: 11, weight: "700", color: T5.orange });
+  return 34;
+}
+function v5logo(board, x, y, dark) {
+  rect(board, "logo mark", x, y, 44, 44, T5.orange);
+  label(board, "logo initials", "GS", x, y + 11, 44, { size: 20, weight: "800", color: T5.white, align: "center" });
+  label(board, "logo word", "GradeSpot", x + 56, y + 9, 220, { size: 20, weight: "800", color: dark ? T5.dark : T5.white });
+}
+function v5kicker(board, x, y, w, text, align) {
+  label(board, "kicker", text.toUpperCase(), x, y, w,
+    { size: 13, weight: "700", color: T5.orange, align: align || "center" });
+  return 30;
+}
+function v5btn(board, x, y, w, h, text, primary) {
+  const bg = primary ? T5.orange : T5.white;
+  rect(board, "btn bg " + text, x, y, w, h, bg);
+  if (!primary) outlinedRect(board, "btn bd " + text, x, y, w, h, T5.orange, 2);
+  label(board, "btn tx " + text, text, x, y + h / 2 - 11, w,
+    { size: 16, weight: "700", color: primary ? T5.white : T5.orange, align: "center" });
+}
+function v5secHead(board, y, eyebrow, title, sub, carbonTag, vw, mx) {
+  vw = vw || W5; mx = (mx === undefined) ? MX5 : mx;
+  const cw = vw - mx * 2;
+  let yy = y + 10;
+  yy += devTag(board, mx, yy, "Carbon: " + carbonTag, 360); yy += 6;
+  yy += v5kicker(board, mx, yy, cw, eyebrow); 
+  label(board, "sec title", title, mx, yy, cw, { size: 40, weight: "700", color: T5.dark, align: "center" });
+  yy += 62;
+  if (sub) {
+    label(board, "sec sub", sub, mx + (cw - 760) / 2, yy, 760, { size: 17, color: T5.body, align: "center" });
+    yy += 72;
+  } else { yy += 10; }
+  return yy;
+}
+
+// ---------- v5 NAVBAR (desktop) ----------
+function v5nav(board, y, active) {
+  let yy = y;
+  rect(board, "util bg", 0, yy, W5, 36, T5.navy);
+  label(board, "util contact", DATA5.phones[0] + "   ·   " + DATA5.emails[0], MX5, yy + 10, 600,
+    { size: 12, weight: "600", color: T5.white });
+  label(board, "util badges", DATA5.badges.join("   ·   "), W5 - MX5 - 420, yy + 10, 420,
+    { size: 12, weight: "600", color: T5.white, align: "right" });
+  yy += 36;
+  const h = 76;
+  rect(board, "nav bg", 0, yy, W5, h, T5.white);
+  rect(board, "nav border", 0, yy + h - 1, W5, 1, T5.border);
+  v5logo(board, MX5, yy + 16, true);
+  let lx = 330;
+  DATA5.navLinks.forEach((l) => {
+    const plain = l.replace(" ▾", "");
+    const on = plain === active;
+    label(board, "nav " + plain, l, lx, yy + 28, 130,
+      { size: 14, weight: on ? "700" : "500", color: on ? T5.dark : T5.body });
+    if (on) rect(board, "nav on " + plain, lx, yy + 54, 28, 3, T5.orange);
+    lx += 118;
+  });
+  v5btn(board, W5 - MX5 - 190, yy + 15, 190, 46, "Get a Callback", true);
+  yy += h;
+  devTag(board, MX5, yy + 8, "Carbon: UI Shell Header (custom marketing nav)", 380);
+  return yy + 42;
+}
+
+// ---------- v5 HERO (desktop, split audience) ----------
+function v5hero(board, y) {
+  const h = 640;
+  rect(board, "hero bg", 0, y, W5, h, T5.bgLight);
+  let yy = y + 90;
+  yy += devTag(board, MX5, yy, "Carbon: Grid(16) · Tabs · Button", 340); yy += 14;
+  yy += v5kicker(board, MX5, yy, 640, "Online & offline · Hyderabad", "left");
+  label(board, "hero h1", "Launch your cybersecurity career with hands-on training", MX5, yy, 640,
+    { size: 56, weight: "800", color: T5.dark });
+  yy += 170;
+  label(board, "hero sub", "SOC, ethical hacking, cloud and networking — taught by working security engineers. 1,500+ students enrolled.", MX5, yy, 600,
+    { size: 17, color: T5.body });
+  yy += 78;
+  ["Students", "Businesses", "Institutes"].forEach((t, i) => {
+    const bx = MX5 + i * 150;
+    rect(board, "aud " + t, bx, yy, 138, 40, i === 0 ? T5.dark : T5.white);
+    if (i !== 0) outlinedRect(board, "aud bd " + t, bx, yy, 138, 40, T5.borderD, 1);
+    label(board, "aud tx " + t, t, bx, yy + 10, 138, { size: 14, weight: "700", color: i === 0 ? T5.white : T5.body, align: "center" });
+  });
+  yy += 62;
+  v5btn(board, MX5, yy, 220, 54, "Explore Trainings", true);
+  v5btn(board, MX5 + 236, yy, 220, 54, "Talk To A Trainer", false);
+  yy += 84;
+  label(board, "hero trust", "★ 1,200+ certified learners   ·   ISO 9001:2015   ·   AICTE-approved internships",
+    MX5, yy, 700, { size: 13, weight: "600", color: T5.sec });
+  // WhatsApp demo widget mock (right)
+  const px = W5 - MX5 - 340, py = y + 110;
+  rect(board, "wa mock", px, py, 340, 420, T5.white);
+  outlinedRect(board, "wa mock bd", px, py, 340, 420, T5.borderD, 1);
+  rect(board, "wa head", px, py, 340, 56, T5.green);
+  label(board, "wa head tx", "GradeSpot Assistant  ● online", px + 20, py + 18, 300, { size: 14, weight: "700", color: T5.white });
+  label(board, "wa b1", "Hi! Looking for a cybersecurity course?", px + 20, py + 90, 300, { size: 14, color: T5.dark });
+  rect(board, "wa b1 bg", px + 12, py + 82, 300, 40, T5.bgLight);
+  label(board, "wa b2", "Yes — SOC Analyst batch timings?", px + 20, py + 150, 300, { size: 14, color: T5.dark });
+  rect(board, "wa b2 bg", px + 12, py + 142, 300, 40, T5.tint);
+  label(board, "wa b3", "Weekend + weekday batches, online & offline. Shall I book a free counselling call?", px + 20, py + 210, 300, { size: 14, color: T5.dark });
+  rect(board, "wa b3 bg", px + 12, py + 202, 300, 64, T5.bgLight);
+  label(board, "wa cap", "LIVE PRODUCT DEMO — WhatsApp Lead Automation", px, py + 444, 340,
+    { size: 12, weight: "700", color: T5.orange, align: "center" });
+  devTag(board, px, py + 470, "Carbon: — (custom chat widget)", 300);
+  return y + h;
+}
+
+// ---------- v5 STATS ----------
+function v5stats(board, y) {
+  rect(board, "stats bg", 0, y, W5, 190, T5.navy);
+  const n = DATA5.stats.length, cw = CW5 / n;
+  DATA5.stats.forEach((s, i) => {
+    label(board, "stat n" + i, s[0], MX5 + i * cw, y + 52, cw, { size: 40, weight: "800", color: T5.white, align: "center" });
+    label(board, "stat l" + i, s[1], MX5 + i * cw, y + 108, cw, { size: 14, weight: "600", color: T5.footLink, align: "center" });
+  });
+  devTag(board, MX5, y + 152, "Carbon: Grid(16)", 200);
+  return y + 190;
+}
+
+// ---------- v5 CTA band ----------
+function v5cta(board, y, title, sub) {
+  const h = 300;
+  rect(board, "cta bg", 0, y, W5, h, T5.orange);
+  label(board, "cta t", title || "Not sure where to start?", MX5, y + 70, CW5,
+    { size: 36, weight: "800", color: T5.white, align: "center" });
+  label(board, "cta s", sub || "Talk to a trainer — free career counselling, no spam.", MX5, y + 128, CW5,
+    { size: 17, color: T5.white, align: "center" });
+  v5btn(board, W5 / 2 - 110, y + 180, 220, 54, "Get a Callback", false);
+  devTag(board, MX5, y + 252, "Carbon: Button", 200);
+  return y + h;
+}
+
+// ---------- v5 FOOTER (desktop) ----------
+function v5footer(board, y) {
+  const h = 480;
+  rect(board, "footer bg", 0, y, W5, h, T5.black);
+  v5logo(board, MX5, y + 48, false);
+  label(board, "f blurb", "Cybersecurity & IT training institute and IT solutions company in Hyderabad.", MX5, y + 116, 300, { size: 14, color: T5.footLink });
+  label(board, "f badges", DATA5.badges.join(" · "), MX5, y + 176, 320, { size: 13, weight: "600", color: T5.footLink });
+  const cols = [
+    ["Quick Links", ["Home", "About Us", "Trainings", "Pricing", "Contact Us"]],
+    ["Top Courses", ["SOC Analyst Training", "CCNA 200-301", "Cyber Security Professional", "Azure Administrator", "Digital Marketing"]],
+    ["Contact", [DATA5.emails[0], DATA5.emails[1], DATA5.phones[0], DATA5.phones[1]]],
+  ];
+  cols.forEach((c, i) => {
+    const x = 440 + i * 330;
+    label(board, "f h" + i, c[0], x, y + 48, 300, { size: 16, weight: "700", color: T5.white });
+    c[1].forEach((l, j) => {
+      label(board, "f l" + i + j, l, x, y + 88 + j * 32, 320, { size: 14, color: T5.footLink });
+    });
+  });
+  label(board, "f addr", DATA5.address, MX5, y + 300, 500, { size: 13, color: T5.footLink });
+  label(board, "f hours", DATA5.hours, MX5, y + 344, 500, { size: 13, color: T5.footLink });
+  rect(board, "f div", MX5, y + h - 72, CW5, 1, "#333333");
+  label(board, "f copy", "© 2026 GradeSpot IT Solutions Pvt. Ltd.", MX5, y + h - 44, 600, { size: 13, color: T5.footLink });
+  devTag(board, W5 - MX5 - 320, y + h - 52, "Carbon: Grid (custom footer)", 320);
+  return y + h;
+}
+
+function v5float(board, totalH, vw) {
+  vw = vw || W5;
+  circle(board, "wa float", vw - 110, totalH - 110, 64, T5.green);
+  label(board, "wa float tx", "WA", vw - 110, totalH - 92, 64, { size: 18, weight: "800", color: T5.white, align: "center" });
+}
+
+// ---------- v5 inner page hero ----------
+function v5pageHero(board, y, title, sub, crumb) {
+  const h = 340;
+  rect(board, "phero bg", 0, y, W5, h, T5.navy);
+  label(board, "phero crumb", crumb || "Home / ", MX5, y + 92, CW5,
+    { size: 13, weight: "600", color: T5.footLink, align: "center" });
+  label(board, "phero t", title, MX5, y + 122, CW5, { size: 48, weight: "800", color: T5.white, align: "center" });
+  if (sub) label(board, "phero s", sub, MX5, y + 200, CW5, { size: 17, color: T5.footLink, align: "center" });
+  devTag(board, MX5, y + 286, "Carbon: Breadcrumb", 240);
+  return y + h;
+}
+
+// ---------- v5 course cards ----------
+function v5courseCard(board, x, y, w, c) {
+  const h = 300;
+  rect(board, "cc bg " + c.key, x, y, w, h, T5.white);
+  outlinedRect(board, "cc bd " + c.key, x, y, w, h, T5.border, 1);
+  const tagBg = c.planned ? T5.bgLight : T5.tint;
+  rect(board, "cc tag bg " + c.key, x + 24, y + 24, 150, 30, tagBg);
+  label(board, "cc tag " + c.key, c.tag, x + 24, y + 31, 150, { size: 12, weight: "700", color: c.planned ? T5.sec : T5.orange, align: "center" });
+  label(board, "cc name " + c.key, c.name, x + 24, y + 72, w - 48, { size: 20, weight: "700", color: T5.dark });
+  label(board, "cc blurb " + c.key, c.blurb, x + 24, y + 130, w - 48, { size: 14, color: T5.body });
+  label(board, "cc more " + c.key, "Online & Offline   →", x + 24, y + h - 52, w - 48, { size: 14, weight: "700", color: T5.orange });
+  return h;
+}
+function v5courseGrid(board, y, list, cols) {
+  cols = cols || 3;
+  const gap = 32, cw = (CW5 - gap * (cols - 1)) / cols;
+  let yy = y;
+  yy += devTag(board, MX5, yy, "Carbon: ClickableTile (" + cols + "-col)", 300); yy += 10;
+  for (let r = 0; r < Math.ceil(list.length / cols); r++) {
+    let rh = 0;
+    for (let i = 0; i < cols; i++) {
+      const c = list[r * cols + i];
+      if (!c) continue;
+      const h = v5courseCard(board, MX5 + i * (cw + gap), yy, cw, c);
+      rh = Math.max(rh, h);
+    }
+    yy += rh + gap;
+  }
+  return yy + 20;
+}
+
+// ---------- v5 testimonials ----------
+function v5testimonials(board, y) {
+  let yy = y;
+  yy += devTag(board, MX5, yy, "Carbon: Tile", 200); yy += 10;
+  const list = DATA5.testimonials, cols = 3, gap = 32, cw = (CW5 - gap * (cols - 1)) / cols;
+  for (let r = 0; r < Math.ceil(list.length / cols); r++) {
+    let rh = 0;
+    for (let i = 0; i < cols; i++) {
+      const t = list[r * cols + i];
+      if (!t) continue;
+      const x = MX5 + i * (cw + gap);
+      const h = 260;
+      rect(board, "tm bg " + r + i, x, yy, cw, h, T5.white);
+      outlinedRect(board, "tm bd " + r + i, x, yy, cw, h, T5.border, 1);
+      label(board, "tm q " + r + i, "\u201C" + t[2] + "\u201D", x + 24, yy + 24, cw - 48, { size: 14, color: T5.body });
+      label(board, "tm n " + r + i, t[0], x + 24, yy + h - 72, cw - 48, { size: 15, weight: "700", color: T5.dark });
+      label(board, "tm r " + r + i, t[1], x + 24, yy + h - 46, cw - 48, { size: 13, color: T5.muted });
+      rh = Math.max(rh, h);
+    }
+    yy += rh + gap;
+  }
+  return yy + 20;
+}
+
+// ---------- v5 FAQ (accordion mock) ----------
+function v5faq(board, y, items) {
+  items = items || DATA5.faqs;
+  let yy = y;
+  yy += devTag(board, MX5, yy, "Carbon: Accordion", 240); yy += 10;
+  const w = 900, x = (W5 - w) / 2;
+  items.forEach((f, i) => {
+    rect(board, "faq bg " + i, x, yy, w, 76, T5.white);
+    outlinedRect(board, "faq bd " + i, x, yy, w, 76, T5.border, 1);
+    label(board, "faq q " + i, f[0], x + 24, yy + 26, w - 80, { size: 16, weight: "600", color: T5.dark });
+    label(board, "faq c " + i, "+", x + w - 48, yy + 24, 32, { size: 22, weight: "700", color: T5.orange, align: "center" });
+    yy += 88;
+  });
+  return yy + 20;
+}
+
+// ---------- v5 pricing tiers ----------
+function v5tiers(board, y) {
+  let yy = y;
+  rect(board, "draft stamp", MX5, yy, 420, 36, "#FEF3C7");
+  label(board, "draft tx", "DRAFT PRICING — not final, not published", MX5 + 14, yy + 10, 400, { size: 13, weight: "700", color: "#92400E" });
+  yy += 56;
+  yy += devTag(board, MX5, yy, "Carbon: Tile · Button", 260); yy += 10;
+  const gap = 32, cw = (CW5 - gap * 2) / 3;
+  DATA5.tiers.forEach((t, i) => {
+    const x = MX5 + i * (cw + gap), h = 380;
+    rect(board, "tier bg " + i, x, yy, cw, h, T5.white);
+    outlinedRect(board, "tier bd " + i, x, yy, cw, h, i === 1 ? T5.orange : T5.border, i === 1 ? 2 : 1);
+    if (i === 1) {
+      rect(board, "tier pop", x, yy - 18, 130, 36, T5.orange);
+      label(board, "tier pop tx", "POPULAR", x, yy - 9, 130, { size: 12, weight: "800", color: T5.white, align: "center" });
+    }
+    label(board, "tier n " + i, t[0], x + 32, yy + 32, cw - 64, { size: 20, weight: "700", color: T5.dark });
+    label(board, "tier p " + i, t[1], x + 32, yy + 72, cw - 64, { size: 36, weight: "800", color: T5.orange });
+    label(board, "tier per " + i, t[2], x + 32, yy + 122, cw - 64, { size: 13, color: T5.muted });
+    t[3].forEach((f, j) => {
+      label(board, "tier f" + i + j, "✓  " + f, x + 32, yy + 168 + j * 32, cw - 64, { size: 14, color: T5.body });
+    });
+    v5btn(board, x + 32, yy + h - 78, cw - 64, 50, "Choose " + t[0], i === 1);
+  });
+  return yy + 380 + 40;
+}
+
+// ---------- v5 services / products grid ----------
+function v5tileGrid(board, y, items, carbonTag) {
+  let yy = y;
+  yy += devTag(board, MX5, yy, "Carbon: " + carbonTag, 340); yy += 10;
+  const cols = 3, gap = 32, cw = (CW5 - gap * (cols - 1)) / cols;
+  for (let r = 0; r < Math.ceil(items.length / cols); r++) {
+    for (let i = 0; i < cols; i++) {
+      const it = items[r * cols + i];
+      if (!it) continue;
+      const x = MX5 + i * (cw + gap), h = 220;
+      rect(board, "tg bg " + r + i, x, yy, cw, h, T5.white);
+      outlinedRect(board, "tg bd " + r + i, x, yy, cw, h, T5.border, 1);
+      circle(board, "tg ic " + r + i, x + 28, yy + 28, 48, T5.tint);
+      label(board, "tg n " + r + i, it[0], x + 28, yy + 96, cw - 56, { size: 18, weight: "700", color: T5.dark });
+      label(board, "tg d " + r + i, it[1], x + 28, yy + 128, cw - 56, { size: 14, color: T5.body });
+    }
+    yy += 220 + gap;
+  }
+  return yy + 20;
+}
+
+// ---------- v5 team cards ----------
+function v5team(board, y) {
+  let yy = y;
+  yy += devTag(board, MX5, yy, "Carbon: Tile", 200); yy += 10;
+  const cols = 3, gap = 32, cw = (CW5 - gap * (cols - 1)) / cols;
+  DATA5.team.forEach((m, i) => {
+    const r = Math.floor(i / cols), c = i % cols;
+    const x = MX5 + c * (cw + gap), yy2 = yy + r * (300 + gap);
+    rect(board, "tm m bg " + i, x, yy2, cw, 300, T5.white);
+    outlinedRect(board, "tm m bd " + i, x, yy2, cw, 300, T5.border, 1);
+    circle(board, "tm m av " + i, x + cw / 2 - 48, yy2 + 36, 96, T5.imgBg);
+    label(board, "tm m ini " + i, m[0].split(" ").map((s) => s[0]).join("").slice(0, 2), x + cw / 2 - 48, yy2 + 62, 96,
+      { size: 28, weight: "800", color: T5.muted, align: "center" });
+    label(board, "tm m n " + i, m[0], x + 24, yy2 + 160, cw - 48, { size: 18, weight: "700", color: T5.dark, align: "center" });
+    label(board, "tm m r " + i, m[1], x + 24, yy2 + 192, cw - 48, { size: 14, color: T5.orange, align: "center" });
+    if (m[0] === "Name TBD") label(board, "tm m ph " + i, "Photo on confirmation", x + 24, yy2 + 232, cw - 48, { size: 12, color: T5.muted, align: "center" });
+  });
+  return yy + Math.ceil(DATA5.team.length / cols) * (300 + gap) + 20;
+}
+
+// ---------- v5 process steps ----------
+function v5process(board, y, steps) {
+  let yy = y;
+  yy += devTag(board, MX5, yy, "Carbon: Grid(16)", 240); yy += 10;
+  const n = steps.length, gap = 32, cw = (CW5 - gap * (n - 1)) / n;
+  steps.forEach((s, i) => {
+    const x = MX5 + i * (cw + gap);
+    circle(board, "ps n bg " + i, x, yy, 56, T5.orange);
+    label(board, "ps n " + i, String(i + 1), x, yy + 14, 56, { size: 22, weight: "800", color: T5.white, align: "center" });
+    label(board, "ps t " + i, s[0], x, yy + 76, cw, { size: 17, weight: "700", color: T5.dark });
+    label(board, "ps d " + i, s[1], x, yy + 104, cw, { size: 14, color: T5.body });
+  });
+  return yy + 220;
+}
+
+// ---------- v5 verify box ----------
+function v5verifyBox(board, y) {
+  let yy = y;
+  yy += devTag(board, MX5, yy, "Carbon: TextInput · Button · Tile", 360); yy += 10;
+  const w = 760, x = (W5 - w) / 2;
+  rect(board, "vf input", x, yy, w - 200, 60, T5.white);
+  outlinedRect(board, "vf input bd", x, yy, w - 200, 60, T5.borderD, 1);
+  label(board, "vf ph", "Enter certificate ID — try GS-2026-0042", x + 20, yy + 19, w - 240, { size: 15, color: T5.muted });
+  v5btn(board, x + w - 180, yy, 180, 60, "Verify", true);
+  yy += 100;
+  rect(board, "vf res", x, yy, w, 190, T5.white);
+  outlinedRect(board, "vf res bd", x, yy, w, 190, T5.green, 2);
+  label(board, "vf ok", "✓  VALID CERTIFICATE (sample result)", x + 32, yy + 28, w - 64, { size: 16, weight: "700", color: T5.green });
+  label(board, "vf dt", "Certificate ID: GS-2026-0042   ·   Course: SOC Analyst Training   ·   Issued: [date on confirmation]", x + 32, yy + 68, w - 64, { size: 14, color: T5.body });
+  label(board, "vf note", "Result layout only — live lookup connects to the verification API route in production.", x + 32, yy + 128, w - 64, { size: 13, color: T5.muted });
+  return yy + 190 + 30;
+}
+
+// ---------- v5 contact columns ----------
+function v5contactCols(board, y) {
+  let yy = y;
+  yy += devTag(board, MX5, yy, "Carbon: TextInput · TextArea · Select · Button", 420); yy += 10;
+  const lw = 560, rw = CW5 - lw - 64;
+  label(board, "ct h", "Send an enquiry", MX5, yy, lw, { size: 24, weight: "700", color: T5.dark });
+  const fields = ["Full name", "Phone (10-digit)", "Email", "I'm interested in ▾", "Message"];
+  fields.forEach((f, i) => {
+    const fh = f === "Message" ? 130 : 58;
+    rect(board, "ct f" + i, MX5, yy + 56 + i * (i < 4 ? 78 : 78), lw, fh, T5.white);
+    outlinedRect(board, "ct fb" + i, MX5, yy + 56 + i * 78, lw, fh, T5.borderD, 1);
+    label(board, "ct fl" + i, f, MX5 + 18, yy + 56 + i * 78 + (fh === 58 ? 18 : 14), lw - 36, { size: 14, color: T5.muted });
+  });
+  yy += 56 + 4 * 78 + 130 + 24;
+  v5btn(board, MX5, yy, 240, 54, "Send Enquiry", true);
+  label(board, "ct note", "Submits to the Next.js API route → CRM + WhatsApp. Honeypot + 10-digit validation.", MX5, yy + 70, lw, { size: 13, color: T5.muted });
+  const rx = MX5 + lw + 64;
+  label(board, "ct ih", "Reach us directly", rx, y + 44, rw, { size: 24, weight: "700", color: T5.dark });
+  const info = ["Call: " + DATA5.phones.join(" · "), "Mail: " + DATA5.emails.join(" · "), DATA5.address, DATA5.hours];
+  info.forEach((t, i) => {
+    label(board, "ct i" + i, t, rx, y + 100 + i * 56, rw, { size: 15, color: T5.body });
+  });
+  label(board, "ct map", "MAP EMBED", rx, y + 340, rw, { size: 13, weight: "700", color: T5.muted, align: "center" });
+  rect(board, "ct map bg", rx, y + 320, rw, 220, T5.imgBg);
+  return Math.max(yy + 110, y + 570);
+}
+
+// ==================== v5 desktop page drawers ====================
+async function d5Home(board) {
+  const featured = DATA5.courses.slice(0, 6);
+  return runSteps(board, "Home", [
+    (b, y) => v5nav(b, y, "Home"),
+    (b, y) => v5hero(b, y),
+    (b, y) => v5stats(b, y),
+    (b, y) => v5secHead(b, y, "Trainings", "Job-ready courses, taught by practitioners", "Security, cloud, networking and marketing — online & offline.", "ClickableTile (3-col)", W5, MX5),
+    (b, y) => v5courseGrid(b, y, featured, 3),
+    (b, y) => v5secHead(b, y, "Why GradeSpot", "Training that treats you like a future colleague", "", "Tile (4-col)", W5, MX5),
+    (b, y) => v5tileGrid(b, y, [
+      ["Working trainers", "Learn from security engineers doing the job today."],
+      ["Hands-on labs", "Real tools, real scenarios — not just slides."],
+      ["Placement assistance", "Resume, mock interviews and hiring connects."],
+      ["Online & offline", "Classroom in Dilsukhnagar + live online batches."],
+    ], "Tile (4-col)"),
+    (b, y) => v5secHead(b, y, "Testimonials", "Learners who got hired", "", "Tile", W5, MX5),
+    (b, y) => v5testimonials(b, y),
+    (b, y) => v5secHead(b, y, "FAQ", "Common questions", "", "Accordion", W5, MX5),
+    (b, y) => v5faq(b, y),
+    (b, y) => v5cta(b, y),
+    (b, y) => v5footer(b, y),
+  ]);
+}
+
+async function d5About(board) {
+  return runSteps(board, "About", [
+    (b, y) => v5nav(b, y, "About"),
+    (b, y) => v5pageHero(b, y, "About GradeSpot", "A cybersecurity & IT training institute — and an IT solutions company — in Hyderabad.", "Home / About"),
+    (b, y) => {
+      let yy = y + 70;
+      yy += devTag(b, MX5, yy, "Carbon: Grid(16)", 240); yy += 16;
+      label(b, "ab t", "Two businesses, one promise: practical skills.", MX5, yy, 600, { size: 32, weight: "700", color: T5.dark });
+      label(b, "ab p", "GradeSpot IT Solutions runs job-focused training programs and delivers IT services — cybersecurity, web development, digital marketing and network infrastructure — to businesses. Our trainers are working engineers, and our classrooms run the same tools the industry uses.", MX5, yy + 110, 600, { size: 16, color: T5.body });
+      label(b, "ab badges", "✓ " + DATA5.badges.join("     ✓ "), MX5, yy + 250, 600, { size: 14, weight: "700", color: T5.orange });
+      rect(b, "ab img", MX5 + 700, yy, 580, 340, T5.imgBg);
+      label(b, "ab img tx", "CAMPUS / CLASSROOM PHOTO", MX5 + 700, yy + 160, 580, { size: 13, weight: "700", color: T5.muted, align: "center" });
+      return yy + 400;
+    },
+    (b, y) => v5stats(b, y),
+    (b, y) => v5secHead(b, y, "Leadership", "Meet the team", "", "Tile", W5, MX5),
+    (b, y) => v5team(b, y),
+    (b, y) => v5cta(b, y, "Visit us in Dilsukhnagar", DATA5.address),
+    (b, y) => v5footer(b, y),
+  ]);
+}
+
+async function d5Trainings(board) {
+  return runSteps(board, "Trainings", [
+    (b, y) => v5nav(b, y, "Trainings"),
+    (b, y) => v5pageHero(b, y, "Trainings", "11 programs across security, cloud, networking, marketing and development.", "Home / Trainings"),
+    (b, y) => {
+      let yy = y + 50;
+      yy += devTag(b, MX5, yy, "Carbon: Tabs (category filter)", 340); yy += 14;
+      let xx = MX5;
+      ["All", "Security", "Cloud", "Networking", "Marketing", "Development"].forEach((f, i) => {
+        rect(b, "flt " + i, xx, yy, 130, 42, i === 0 ? T5.dark : T5.white);
+        if (i !== 0) outlinedRect(b, "flt bd " + i, xx, yy, 130, 42, T5.borderD, 1);
+        label(b, "flt tx " + i, f, xx, yy + 11, 130, { size: 14, weight: "700", color: i === 0 ? T5.white : T5.body, align: "center" });
+        xx += 142;
+      });
+      return yy + 90;
+    },
+    (b, y) => v5courseGrid(b, y, DATA5.courses, 3),
+    (b, y) => v5secHead(b, y, "FAQ", "Training questions", "", "Accordion", W5, MX5),
+    (b, y) => v5faq(b, y),
+    (b, y) => v5cta(b, y),
+    (b, y) => v5footer(b, y),
+  ]);
+}
+
+function d5CourseDetail(key) {
+  const c = DATA5.courses.find((x) => x.key === key);
+  return async function (board) {
+    const soc = key === "soc-analyst";
+    return runSteps(board, c.name, [
+      (b, y) => v5nav(b, y, "Trainings"),
+      (b, y) => v5pageHero(b, y, c.name, c.blurb, "Home / Trainings / " + c.name),
+      (b, y) => {
+        let yy = y + 50;
+        yy += devTag(b, MX5, yy, "Carbon: Tag · Grid(16)", 280); yy += 14;
+        let xx = MX5;
+        const chips = soc ? ["90-day program", "Online & Offline", "Free EC-Council C|SA voucher"] : ["Online & Offline", c.planned ? "Launching soon" : "Admissions open"];
+        chips.forEach((t) => {
+          const w = 22 + t.length * 8;
+          rect(b, "meta " + t, xx, yy, w, 38, T5.tint);
+          label(b, "meta tx " + t, t, xx, yy + 10, w, { size: 13, weight: "700", color: T5.orange, align: "center" });
+          xx += w + 14;
+        });
+        yy += 80;
+        label(b, "ov h", "Course overview", MX5, yy, 800, { size: 28, weight: "700", color: T5.dark });
+        label(b, "ov p", soc
+          ? "Master threat detection, incident response and SIEM operations over 90 days. You will work with Splunk, IBM QRadar and Microsoft Sentinel on real attack scenarios, log analysis and threat intelligence — and prepare for certifications like Security+, CySA+, CEH, SC-200 and the EC-Council C|SA (exam voucher included free)."
+          : c.blurb + " Full curriculum, batch dates and fees are shared on enquiry — talk to a trainer for the latest schedule.",
+          MX5, yy + 48, 800, { size: 16, color: T5.body });
+        const bx = MX5 + 880, bw = CW5 - 880;
+        rect(b, "ov side", bx, yy, bw, 300, T5.bgLight);
+        label(b, "ov side h", "Get the full syllabus", bx + 32, yy + 36, bw - 64, { size: 18, weight: "700", color: T5.dark });
+        label(b, "ov side p", "Download the detailed curriculum PDF with module-wise topics, lab list and batch calendar.", bx + 32, yy + 76, bw - 64, { size: 14, color: T5.body });
+        v5btn(b, bx + 32, yy + 170, bw - 64, 52, "Download Syllabus", true);
+        devTag(b, bx + 32, yy + 244, "Carbon: Button", 200);
+        return yy + 380;
+      },
+      (b, y) => {
+        let yy = v5secHead(b, y, "Curriculum", soc ? "What you will master" : "Program structure", "", "Accordion", W5, MX5);
+        const mods = soc
+          ? ["Computer networking & Linux foundations", "Vulnerability assessment with Nessus & OpenVAS", "Malware analysis & forensics", "SIEM deep-dive: Splunk, IBM QRadar, Microsoft Sentinel", "Threat intelligence & MITRE ATT&CK", "Incident response playbooks & SOC workflows", "Certification prep: Security+, CySA+, CEH, SC-200, C|SA"]
+          : ["Module 1 — Foundations", "Module 2 — Core concepts & tools", "Module 3 — Hands-on labs & projects", "Module 4 — Certification preparation", "Module 5 — Career guidance & interviews", "Full module-wise curriculum shared on enquiry"];
+        const w = 900, x = (W5 - w) / 2;
+        mods.forEach((m, i) => {
+          rect(b, "mod " + i, x, yy, w, 64, T5.white);
+          outlinedRect(b, "mod bd " + i, x, yy, w, 64, T5.border, 1);
+          label(b, "mod tx " + i, m, x + 24, yy + 21, w - 80, { size: 15, weight: "600", color: T5.dark });
+          label(b, "mod c " + i, "+", x + w - 48, yy + 18, 32, { size: 20, weight: "700", color: T5.orange, align: "center" });
+          yy += 76;
+        });
+        return yy + 40;
+      },
+      (b, y) => v5secHead(b, y, "Related", "Keep exploring", "", "ClickableTile", W5, MX5),
+      (b, y) => v5courseGrid(b, y, DATA5.courses.filter((x) => x.key !== key).slice(0, 3), 3),
+      (b, y) => v5cta(b, y, "Talk to a trainer about " + c.name, "Free counselling · batch dates · fees."),
+      (b, y) => v5footer(b, y),
+    ]);
+  };
+}
+
+async function d5Services(board) {
+  return runSteps(board, "Services", [
+    (b, y) => v5nav(b, y, "For Businesses"),
+    (b, y) => v5pageHero(b, y, "IT Services for Businesses", "Cybersecurity, web, marketing and infrastructure — delivered by the same engineers who train.", "Home / Services"),
+    (b, y) => v5secHead(b, y, "Services", "What we do for businesses", "", "Tile (3-col)", W5, MX5),
+    (b, y) => v5tileGrid(b, y, DATA5.services, "Tile (3-col)"),
+    (b, y) => v5secHead(b, y, "Process", "How engagements run", "", "Grid(16)", W5, MX5),
+    (b, y) => v5process(b, y, [
+      ["Discover", "We map your goals, systems and constraints."],
+      ["Design", "You approve a scoped plan with timelines."],
+      ["Build", "Our engineers deliver in weekly milestones."],
+      ["Support", "Handover, docs and ongoing support."],
+    ]),
+    (b, y) => v5cta(b, y, "Start a project", "Tell us about your requirement — we reply within one business day."),
+    (b, y) => v5footer(b, y),
+  ]);
+}
+
+async function d5Institutes(board) {
+  return runSteps(board, "For Institutes", [
+    (b, y) => v5nav(b, y, "For Institutes"),
+    (b, y) => v5pageHero(b, y, "Automation for Training Institutes", "GradeSpot runs on Axon — our own institute-automation stack. Now packaged for institutes like yours.", "Home / For Institutes"),
+    (b, y) => v5secHead(b, y, "Products", "Three products, one stack", "This website is the live demo — every product below powers GradeSpot itself.", "Tile (3-col)", W5, MX5),
+    (b, y) => v5tileGrid(b, y, DATA5.products, "Tile (3-col)"),
+    (b, y) => v5secHead(b, y, "Pricing", "Simple, one-time setup", "Recurring plans on confirmation. Below: draft proposal.", "Tile · Button", W5, MX5),
+    (b, y) => v5tiers(b, y),
+    (b, y) => v5secHead(b, y, "Pilot", "Live in 4 steps", "", "Grid(16)", W5, MX5),
+    (b, y) => v5process(b, y, [
+      ["Demo", "See it running on GradeSpot's own enquiries."],
+      ["Setup", "We configure it for your courses & batches."],
+      ["Pilot", "Run it on real enquiries for 2 weeks."],
+      ["Scale", "Add LMS and lab setup when ready."],
+    ]),
+    (b, y) => v5cta(b, y, "Book a live demo", "We will run your own enquiry flow live on the call."),
+    (b, y) => v5footer(b, y),
+  ]);
+}
+
+async function d5Pricing(board) {
+  return runSteps(board, "Pricing", [
+    (b, y) => v5nav(b, y, "Pricing"),
+    (b, y) => v5pageHero(b, y, "Pricing", "Course fees on confirmation. Institute automation below is a draft proposal.", "Home / Pricing"),
+    (b, y) => v5secHead(b, y, "Institute automation", "One-time setup · draft", "", "Tile · Button", W5, MX5),
+    (b, y) => v5tiers(b, y),
+    (b, y) => v5secHead(b, y, "FAQ", "Pricing questions", "", "Accordion", W5, MX5),
+    (b, y) => v5faq(b, y, [
+      ["Are course fees fixed?", "Fees vary by program and batch mode. Talk to a trainer for the current fee."],
+      ["Is the institute pricing final?", "No — the tiers above are a draft proposal shared for feedback."],
+      ["Do you offer instalments?", "Payment plans are discussed during counselling."],
+    ]),
+    (b, y) => v5footer(b, y),
+  ]);
+}
+
+async function d5Why(board) {
+  return runSteps(board, "Why Choose Us", [
+    (b, y) => v5nav(b, y, "About"),
+    (b, y) => v5pageHero(b, y, "Why GradeSpot", "Six reasons learners pick us — all verifiable.", "Home / Why Choose Us"),
+    (b, y) => v5tileGrid(b, y, [
+      ["1,200+ certified learners", "Learners coached through certifications like AZ-104, CCNA and AWS."],
+      ["Working trainers", "Security engineers teaching what they practice daily."],
+      ["Hands-on labs", "Real tools — Splunk, QRadar, Sentinel — on real scenarios."],
+      ["Online & offline", "Dilsukhnagar classrooms plus live online batches."],
+      ["ISO 9001:2015", "Certified quality management across training delivery."],
+      ["AICTE-approved internships", "Recognized internship programs for students."],
+    ], "Tile (3-col)"),
+    (b, y) => v5stats(b, y),
+    (b, y) => v5cta(b, y),
+    (b, y) => v5footer(b, y),
+  ]);
+}
+
+async function d5Testimonials(board) {
+  return runSteps(board, "Testimonials", [
+    (b, y) => v5nav(b, y, "About"),
+    (b, y) => v5pageHero(b, y, "Learner Stories", "Real learners, real outcomes — quoted from our site.", "Home / Testimonials"),
+    (b, y) => v5testimonials(b, y),
+    (b, y) => v5cta(b, y, "Become our next story", "Talk to a trainer about your goals."),
+    (b, y) => v5footer(b, y),
+  ]);
+}
+
+async function d5Certs(board) {
+  const certs = ["EC-Council C|SA (free voucher with SOC)", "CEH", "CompTIA Security+", "CompTIA CySA+", "CompTIA Pentest+", "CompTIA Network+", "Microsoft SC-200", "Microsoft SC-900", "AZ-104", "AZ-900", "AWS Solutions Architect", "CCNA 200-301"];
+  return runSteps(board, "Certifications", [
+    (b, y) => v5nav(b, y, "About"),
+    (b, y) => v5pageHero(b, y, "Student Certifications", "Industry certifications our training prepares you for.", "Home / Student Certifications"),
+    (b, y) => {
+      let yy = y + 60;
+      yy += devTag(b, MX5, yy, "Carbon: Tag", 220); yy += 14;
+      let xx = MX5, rowY = yy;
+      certs.forEach((c) => {
+        const w = 24 + c.length * 8.5;
+        if (xx + w > W5 - MX5) { xx = MX5; rowY += 56; }
+        rect(b, "cert " + c, xx, rowY, w, 42, T5.tint);
+        label(b, "cert tx " + c, c, xx, rowY + 11, w, { size: 13, weight: "700", color: T5.orange, align: "center" });
+        xx += w + 14;
+      });
+      return rowY + 110;
+    },
+    (b, y) => v5cta(b, y, "Earned a certificate with us?", "Verify it instantly on the Certificate Verification page."),
+    (b, y) => v5footer(b, y),
+  ]);
+}
+
+async function d5Verify(board) {
+  return runSteps(board, "Verify", [
+    (b, y) => v5nav(b, y, "About"),
+    (b, y) => v5pageHero(b, y, "Certificate Verification", "Employers and learners can verify any GradeSpot certificate here.", "Home / Certificate Verification"),
+    (b, y) => v5verifyBox(b, y),
+    (b, y) => v5secHead(b, y, "How it works", "", "", "Grid(16)", W5, MX5),
+    (b, y) => v5process(b, y, [
+      ["Enter ID", "Type the certificate ID from the certificate."],
+      ["Verify", "We check it against our learner records."],
+      ["Result", "Instant valid/invalid result with course details."],
+    ]),
+    (b, y) => v5footer(b, y),
+  ]);
+}
+
+async function d5Team(board) {
+  return runSteps(board, "Team", [
+    (b, y) => v5nav(b, y, "About"),
+    (b, y) => v5pageHero(b, y, "Meet the Team", "Founders and senior security engineers.", "Home / Team Members"),
+    (b, y) => v5team(b, y),
+    (b, y) => v5cta(b, y, "Want to learn from this team?", "Talk to a trainer today."),
+    (b, y) => v5footer(b, y),
+  ]);
+}
+
+async function d5Contact(board) {
+  return runSteps(board, "Contact", [
+    (b, y) => v5nav(b, y, "Contact"),
+    (b, y) => v5pageHero(b, y, "Contact Us", "Call, mail or drop by — we reply within one business day.", "Home / Contact"),
+    (b, y) => v5contactCols(b, y),
+    (b, y) => v5footer(b, y),
+  ]);
+}
+
+// ==================== v5 system boards ====================
+async function d5Tokens(board) {
+  return runSteps(board, "Design Tokens", [
+    (b, y) => {
+      let yy = y + 60;
+      label(b, "tk h", "GradeSpot design tokens — exported from gsitssolutions.com (2026-10-03)", MX5, yy, CW5, { size: 28, weight: "800", color: T5.dark });
+      yy += 70;
+      const sw = [["Brand orange", T5.orange, "#F7631B"], ["Orange light", T5.orangeLight, "#F98238"], ["Heading navy", T5.navy, "#0E2B3D"],
+        ["Body text", T5.body, "#666666"], ["Muted", T5.muted, "#7A7A7A"], ["Section bg", T5.bgLight, "#F3F7FD"],
+        ["Tint", T5.tint, "#EDF5FF"], ["Border", T5.border, "#E7E7E7"], ["Footer black", T5.black, "#000000"],
+        ["White", T5.white, "#FFFFFF"], ["Success green", T5.green, "#059669"], ["Footer link", T5.footLink, "#9CA3AF"]];
+      const cols = 4, gap = 32, cw = (CW5 - gap * (cols - 1)) / cols;
+      sw.forEach((s, i) => {
+        const r = Math.floor(i / cols), c = i % cols, x = MX5 + c * (cw + gap), yy2 = yy + r * 120;
+        rect(b, "sw " + i, x, yy2, cw, 64, s[1]);
+        outlinedRect(b, "sw bd " + i, x, yy2, cw, 64, T5.borderD, 1);
+        label(b, "sw n " + i, s[0], x, yy2 + 74, cw, { size: 14, weight: "700", color: T5.dark });
+        label(b, "sw v " + i, s[2], x, yy2 + 96, cw, { size: 13, color: T5.muted });
+      });
+      return yy + Math.ceil(sw.length / cols) * 120 + 40;
+    },
+    (b, y) => {
+      let yy = y + 20;
+      label(b, "ty h", "Type scale — Inter", MX5, yy, CW5, { size: 24, weight: "700", color: T5.dark }); yy += 60;
+      [["Hero 80/800", 80, "800"], ["H1 56/800", 56, "800"], ["Section H2 40/700", 40, "700"], ["H4 20/700", 20, "700"], ["Body 17/400", 17, "400"], ["Small 13/600", 13, "600"]].forEach((t, i) => {
+        label(b, "ty " + i, t[0].split(" ")[0] + " — The quick brown fox", MX5, yy, CW5, { size: t[1], weight: t[2], color: T5.dark });
+        yy += t[1] + 26;
+      });
+      return yy + 20;
+    },
+    (b, y) => {
+      let yy = y + 20;
+      label(b, "sp h", "Radius · shadow · spacing", MX5, yy, CW5, { size: 24, weight: "700", color: T5.dark }); yy += 60;
+      label(b, "sp r", "Radius: 5px buttons/cards · 8px feature cards · 30/40px pills · 50% avatars", MX5, yy, CW5, { size: 15, color: T5.body }); yy += 40;
+      label(b, "sp s", "Shadows: header 0 8px 25px rgba(0,0,0,.04) · cards 0 5px 30px rgba(214,215,216,.57)", MX5, yy, CW5, { size: 15, color: T5.body }); yy += 40;
+      label(b, "sp p", "Section rhythm: 120px top/bottom desktop · 50px mobile · container 1140px (1400 wide)", MX5, yy, CW5, { size: 15, color: T5.body });
+      return yy + 80;
+    },
+  ]);
+}
+
+async function d5DevMap(board) {
+  function table(b, y, title, rows) {
+    let yy = y + 20;
+    label(b, "dm h " + title, title, MX5, yy, CW5, { size: 24, weight: "700", color: T5.dark }); yy += 56;
+    rows.forEach((r, i) => {
+      rect(b, "dm r" + title + i, MX5, yy, CW5, 52, i % 2 ? T5.white : T5.bgLight);
+      label(b, "dm c1 " + title + i, r[0], MX5 + 24, yy + 16, 420, { size: 14, weight: "700", color: T5.dark });
+      label(b, "dm c2 " + title + i, r[1], MX5 + 460, yy + 16, CW5 - 484, { size: 14, color: T5.body });
+      yy += 52;
+    });
+    return yy + 40;
+  }
+  return runSteps(board, "Dev Map", [
+    (b, y) => table(b, y, "Next.js App Router — route → file", [
+      ["/", "app/page.tsx"], ["/about", "app/about/page.tsx"], ["/trainings", "app/trainings/page.tsx"],
+      ["/trainings/[slug]", "app/trainings/[slug]/page.tsx  (11 courses, MDX content)"],
+      ["/services", "app/services/page.tsx"], ["/for-institutes", "app/for-institutes/page.tsx"],
+      ["/pricing", "app/pricing/page.tsx"], ["/team", "app/team/page.tsx"],
+      ["/why-choose-us", "app/why-choose-us/page.tsx"], ["/testimonials", "app/testimonials/page.tsx"],
+      ["/certifications", "app/certifications/page.tsx"], ["/verify", "app/verify/page.tsx"],
+      ["/contact", "app/contact/page.tsx"], ["API: verify", "app/api/verify/route.ts"],
+      ["API: lead", "app/api/lead/route.ts → CRM + WhatsApp"],
+    ]),
+    (b, y) => table(b, y, "Section → Carbon component", [
+      ["Site header/nav", "UI Shell: Header (custom marketing nav)"],
+      ["Hero / grids", "Grid + Column (16-col) · Button (primary/secondary)"],
+      ["Audience switch", "Tabs"], ["Course/service cards", "ClickableTile"],
+      ["Testimonials", "Tile"], ["FAQ", "Accordion / AccordionItem"],
+      ["Forms", "TextInput · TextArea · Select · Button"], ["Fee/batch tables", "DataTable"],
+      ["Breadcrumbs", "Breadcrumb"], ["Callback popup", "Modal"],
+      ["Filter chips", "Tag (filter variant)"], ["Footer", "Custom (Grid)"],
+    ]),
+    (b, y) => table(b, y, "Responsive — Carbon breakpoints", [
+      ["Mobile board", "390px  →  Carbon sm (320–671, 4 cols): bottom tab bar, stacked"],
+      ["Desktop board", "1440px  →  Carbon lg+ (1056+, 16 cols): full navbar"],
+      ["Carbon md", "672–1055 (8 cols): tablet — nav collapses ≤1023"],
+      ["Carbon xlg/max", "1312 / 1584: wide container 1400px"],
+    ]),
+    (b, y) => table(b, y, "Theme & data notes", [
+      ["Theme", "Custom Carbon theme: keep Carbon spacing/type scale; GradeSpot tokens override brand/interactive in custom-theme.scss; Inter via next/font."],
+      ["SEO/AEO", "generateMetadata per route; JSON-LD: Course, FAQPage, BreadcrumbList, Organization; shallow URLs; llms.txt optional."],
+      ["Course content", "MDX per slug under content/courses/; SOC page carries the full verified curriculum."],
+      ["Images", "next/image; hero art + campus photos replace grey placeholders."],
+    ]),
+  ]);
+}
+
+// ==================== v5 mobile kit (390) ====================
+function m5nav(board, y, active) {
+  rect(board, "mnav bg", 0, y, MW5, 64, T5.white);
+  rect(board, "mnav bd", 0, y + 63, MW5, 1, T5.border);
+  v5logo(board, MMX5, y + 12, true);
+  circle(board, "mnav call", MW5 - MMX5 - 44, y + 10, 44, T5.orange);
+  label(board, "mnav call tx", "☎", MW5 - MMX5 - 44, y + 18, 44, { size: 18, color: T5.white, align: "center" });
+  return y + 64;
+}
+function m5tabbar(board, totalH, active) {
+  const tabs = ["Home", "Courses", "Institutes", "Pricing", "Callback"];
+  const h = 76, y = totalH - h;
+  rect(board, "mtab bg", 0, y, MW5, h, T5.white);
+  rect(board, "mtab bd", 0, y, MW5, 1, T5.borderD);
+  tabs.forEach((t, i) => {
+    const w = MW5 / tabs.length, on = t === active;
+    label(board, "mtab " + t, t, i * w, y + 28, w, { size: 12, weight: on ? "800" : "600", color: on ? T5.orange : T5.muted, align: "center" });
+    if (on) rect(board, "mtab on " + t, i * w + w / 2 - 14, y + 6, 28, 3, T5.orange);
+  });
+}
+function m5secHead(board, y, eyebrow, title) {
+  let yy = y + 8;
+  label(board, "msec eb", eyebrow.toUpperCase(), MMX5, yy, MCW5, { size: 12, weight: "700", color: T5.orange, align: "center" });
+  yy += 26;
+  label(board, "msec t", title, MMX5, yy, MCW5, { size: 28, weight: "700", color: T5.dark, align: "center" });
+  return yy + 52;
+}
+function m5hero(board, y) {
+  let yy = y + 40;
+  label(board, "mh eb", "ONLINE & OFFLINE · HYDERABAD", MMX5, yy, MCW5, { size: 12, weight: "700", color: T5.orange, align: "center" });
+  yy += 30;
+  label(board, "mh h1", "Launch your cybersecurity career", MMX5, yy, MCW5, { size: 36, weight: "800", color: T5.dark, align: "center" });
+  yy += 110;
+  label(board, "mh sub", "Hands-on SOC, ethical hacking, cloud & networking — taught by working security engineers.", MMX5, yy, MCW5, { size: 15, color: T5.body, align: "center" });
+  yy += 92;
+  ["Students", "Businesses", "Institutes"].forEach((t, i) => {
+    rect(board, "mh aud " + t, MMX5, yy + i * 52, MCW5, 44, i === 0 ? T5.dark : T5.white);
+    if (i !== 0) outlinedRect(board, "mh aud bd " + t, MMX5, yy + i * 52, MCW5, 44, T5.borderD, 1);
+    label(board, "mh aud tx " + t, t, MMX5, yy + i * 52 + 12, MCW5, { size: 15, weight: "700", color: i === 0 ? T5.white : T5.body, align: "center" });
+  });
+  yy += 3 * 52 + 16;
+  v5btn(board, MMX5, yy, MCW5, 54, "Explore Trainings", true); yy += 66;
+  v5btn(board, MMX5, yy, MCW5, 54, "Talk To A Trainer", false); yy += 80;
+  label(board, "mh trust", "★ 1,200+ certified · ISO 9001:2015 · AICTE approved", MMX5, yy, MCW5, { size: 12, weight: "600", color: T5.sec, align: "center" });
+  return yy + 44;
+}
+function m5courseList(board, y, list) {
+  let yy = y;
+  list.forEach((c) => {
+    const h = v5courseCard(board, MMX5, yy, MCW5, c);
+    yy += h + 20;
+  });
+  return yy;
+}
+function m5footer(board, y) {
+  let yy = y;
+  rect(board, "mf bg", 0, yy, MW5, 560, T5.black);
+  v5logo(board, MMX5, yy + 32, false); yy += 100;
+  ["Quick Links", "Top Courses", "Contact"].forEach((h, i) => {
+    label(board, "mf h" + i, h, MMX5, yy, MCW5, { size: 15, weight: "700", color: T5.white });
+    yy += 34;
+    const links = i === 0 ? ["Home", "Trainings", "Pricing", "Contact"] : i === 1 ? ["SOC Analyst", "CCNA 200-301", "Cyber Security Professional"] : [DATA5.phones[0], DATA5.emails[0]];
+    links.forEach((l) => { label(board, "mf l" + i + l, l, MMX5, yy, MCW5, { size: 14, color: T5.footLink }); yy += 30; });
+    yy += 12;
+  });
+  label(board, "mf copy", "© 2026 GradeSpot IT Solutions Pvt. Ltd.", MMX5, yy + 8, MCW5, { size: 12, color: T5.footLink, align: "center" });
+  return y + 560;
+}
+function m5cta(board, y) {
+  rect(board, "mcta bg", 0, y, MW5, 260, T5.orange);
+  label(board, "mcta t", "Not sure where to start?", MMX5, y + 48, MCW5, { size: 26, weight: "800", color: T5.white, align: "center" });
+  v5btn(board, MMX5 + 40, y + 120, MCW5 - 80, 54, "Get a Callback", false);
+  return y + 260;
+}
+function m5tiers(board, y) {
+  let yy = y + 10;
+  rect(board, "m draft", MMX5, yy, MCW5, 36, "#FEF3C7");
+  label(board, "m draft tx", "DRAFT PRICING — not final", MMX5, yy + 10, MCW5, { size: 12, weight: "700", color: "#92400E", align: "center" });
+  yy += 52;
+  DATA5.tiers.forEach((t, i) => {
+    rect(board, "m tier " + i, MMX5, yy, MCW5, 300, T5.white);
+    outlinedRect(board, "m tier bd " + i, MMX5, yy, MCW5, 300, i === 1 ? T5.orange : T5.border, i === 1 ? 2 : 1);
+    label(board, "m tier n " + i, t[0], MMX5 + 24, yy + 24, MCW5 - 48, { size: 18, weight: "700", color: T5.dark });
+    label(board, "m tier p " + i, t[1] + "  " + t[2], MMX5 + 24, yy + 56, MCW5 - 48, { size: 24, weight: "800", color: T5.orange });
+    t[3].forEach((f, j) => label(board, "m tier f" + i + j, "✓  " + f, MMX5 + 24, yy + 104 + j * 30, MCW5 - 48, { size: 14, color: T5.body }));
+    v5btn(board, MMX5 + 24, yy + 224, MCW5 - 48, 50, "Choose " + t[0], i === 1);
+    yy += 320;
+  });
+  return yy;
+}
+
+async function m5Home(board) {
+  return runSteps(board, "Home mobile", [
+    (b, y) => m5nav(b, y, "Home"),
+    (b, y) => m5hero(b, y),
+    (b, y) => m5secHead(b, y, "Trainings", "Job-ready courses"),
+    (b, y) => m5courseList(b, y, DATA5.courses.slice(0, 4)),
+    (b, y) => m5cta(b, y),
+    (b, y) => m5footer(b, y),
+  ]);
+}
+async function m5Trainings(board) {
+  return runSteps(board, "Trainings mobile", [
+    (b, y) => m5nav(b, y, "Trainings"),
+    (b, y) => m5secHead(b, y, "Trainings", "All programs"),
+    (b, y) => m5courseList(b, y, DATA5.courses),
+    (b, y) => m5cta(b, y),
+    (b, y) => m5footer(b, y),
+  ]);
+}
+async function m5Course(board) {
+  const c = DATA5.courses[0];
+  return runSteps(board, "Course mobile", [
+    (b, y) => m5nav(b, y, "Trainings"),
+    (b, y) => {
+      let yy = y + 30;
+      label(board, "mc crumb", "Home / Trainings", MMX5, yy, MCW5, { size: 12, weight: "600", color: T5.muted }); yy += 30;
+      label(board, "mc t", c.name, MMX5, yy, MCW5, { size: 32, weight: "800", color: T5.dark }); yy += 100;
+      label(board, "mc d", c.blurb, MMX5, yy, MCW5, { size: 15, color: T5.body }); yy += 120;
+      v5btn(board, MMX5, yy, MCW5, 54, "Download Syllabus", true); yy += 70;
+      v5btn(board, MMX5, yy, MCW5, 54, "Talk To A Trainer", false); yy += 84;
+      return yy;
+    },
+    (b, y) => m5secHead(b, y, "Curriculum", "What you will master"),
+    (b, y) => {
+      let yy = y;
+      ["Networking & Linux", "Vulnerability assessment", "Malware analysis", "SIEM: Splunk/QRadar/Sentinel", "Threat intel & ATT&CK", "Incident response", "Certification prep"].forEach((m, i) => {
+        rect(b, "mm " + i, MMX5, yy, MCW5, 56, T5.white);
+        outlinedRect(b, "mm bd " + i, MMX5, yy, MCW5, 56, T5.border, 1);
+        label(b, "mm tx " + i, m, MMX5 + 16, yy + 18, MCW5 - 60, { size: 14, weight: "600", color: T5.dark });
+        yy += 66;
+      });
+      return yy + 10;
+    },
+    (b, y) => m5cta(b, y),
+    (b, y) => m5footer(b, y),
+  ]);
+}
+async function m5Institutes(board) {
+  return runSteps(board, "Institutes mobile", [
+    (b, y) => m5nav(b, y, "For Institutes"),
+    (b, y) => m5secHead(b, y, "For Institutes", "Automation that runs GradeSpot"),
+    (b, y) => {
+      let yy = y;
+      DATA5.products.forEach((p, i) => {
+        rect(b, "mp " + i, MMX5, yy, MCW5, 150, T5.white);
+        outlinedRect(b, "mp bd " + i, MMX5, yy, MCW5, 150, T5.border, 1);
+        label(b, "mp n " + i, p[0], MMX5 + 20, yy + 24, MCW5 - 40, { size: 17, weight: "700", color: T5.dark });
+        label(b, "mp d " + i, p[1], MMX5 + 20, yy + 56, MCW5 - 40, { size: 14, color: T5.body });
+        yy += 170;
+      });
+      return yy;
+    },
+    (b, y) => m5secHead(b, y, "Pricing", "One-time setup · draft"),
+    (b, y) => m5tiers(b, y),
+    (b, y) => m5cta(b, y),
+    (b, y) => m5footer(b, y),
+  ]);
+}
+async function m5Pricing(board) {
+  return runSteps(board, "Pricing mobile", [
+    (b, y) => m5nav(b, y, "Pricing"),
+    (b, y) => m5secHead(b, y, "Pricing", "Institute automation"),
+    (b, y) => m5tiers(b, y),
+    (b, y) => m5footer(b, y),
+  ]);
+}
+async function m5Contact(board) {
+  return runSteps(board, "Contact mobile", [
+    (b, y) => m5nav(b, y, "Contact"),
+    (b, y) => m5secHead(b, y, "Contact", "Talk to us"),
+    (b, y) => {
+      let yy = y;
+      ["Full name", "Phone (10-digit)", "Email", "Message"].forEach((f, i) => {
+        const fh = f === "Message" ? 110 : 56;
+        rect(b, "mf2 " + i, MMX5, yy, MCW5, fh, T5.white);
+        outlinedRect(b, "mf2 bd " + i, MMX5, yy, MCW5, fh, T5.borderD, 1);
+        label(b, "mf2 tx " + i, f, MMX5 + 16, yy + 17, MCW5 - 32, { size: 14, color: T5.muted });
+        yy += fh + 16;
+      });
+      v5btn(b, MMX5, yy, MCW5, 54, "Send Enquiry", true); yy += 80;
+      label(b, "mc info", DATA5.phones.join(" · ") + "\n" + DATA5.emails[0] + "\n" + DATA5.hours, MMX5, yy, MCW5, { size: 14, color: T5.body, align: "center" });
+      return yy + 110;
+    },
+    (b, y) => m5footer(b, y),
+  ]);
+}
+
+// ==================== v5 registries & draw ====================
+const PAGES5 = {
+  "tokens": { title: "00 · Design Tokens", route: "(system)", file: "design-tokens/", carbon: "Custom theme — GradeSpot tokens", make: d5Tokens },
+  "devmap": { title: "01 · Dev Map — Next.js + Carbon", route: "(system)", file: "docs/", carbon: "Mapping reference", make: d5DevMap },
+  "home": { title: "Home", route: "/", file: "app/page.tsx", carbon: "Grid · Tabs · Button · ClickableTile · Tile · Accordion", make: d5Home },
+  "about": { title: "About Us", route: "/about", file: "app/about/page.tsx", carbon: "Grid · Tile · Button", make: d5About },
+  "trainings": { title: "Trainings", route: "/trainings", file: "app/trainings/page.tsx", carbon: "Grid · Tag (filter) · ClickableTile", make: d5Trainings },
+  "services": { title: "Services (For Businesses)", route: "/services", file: "app/services/page.tsx", carbon: "Grid · Tile · Button", make: d5Services },
+  "for-institutes": { title: "For Institutes", route: "/for-institutes", file: "app/for-institutes/page.tsx", carbon: "Grid · Tile · Button · Modal", make: d5Institutes },
+  "pricing": { title: "Pricing", route: "/pricing", file: "app/pricing/page.tsx", carbon: "Tile · Button · Accordion", make: d5Pricing },
+  "why-choose-us": { title: "Why Choose Us", route: "/why-choose-us", file: "app/why-choose-us/page.tsx", carbon: "Grid · Tile", make: d5Why },
+  "testimonials": { title: "Testimonials", route: "/testimonials", file: "app/testimonials/page.tsx", carbon: "Tile", make: d5Testimonials },
+  "certifications": { title: "Student Certifications", route: "/certifications", file: "app/certifications/page.tsx", carbon: "Tag · Button", make: d5Certs },
+  "verify": { title: "Certificate Verification", route: "/verify", file: "app/verify/page.tsx + app/api/verify/route.ts", carbon: "TextInput · Button · Tile", make: d5Verify },
+  "team": { title: "Team Members", route: "/team", file: "app/team/page.tsx", carbon: "Tile", make: d5Team },
+  "contact": { title: "Contact Us", route: "/contact", file: "app/contact/page.tsx + app/api/lead/route.ts", carbon: "TextInput · TextArea · Select · Button", make: d5Contact },
+};
+DATA5.courses.forEach((c) => {
+  PAGES5["course-" + c.key] = {
+    title: c.name, route: "/trainings/" + c.key, file: "app/trainings/[slug]/page.tsx",
+    carbon: "Breadcrumb · Tag · Accordion · ClickableTile · Button", make: d5CourseDetail(c.key),
+  };
+});
+const PAGES5M = {
+  "m-home": { title: "Home · mobile", route: "/", file: "app/page.tsx (responsive)", carbon: "Grid sm · bottom tab bar", make: m5Home },
+  "m-trainings": { title: "Trainings · mobile", route: "/trainings", file: "app/trainings/page.tsx (responsive)", carbon: "Grid sm · ClickableTile", make: m5Trainings },
+  "m-course": { title: "SOC Analyst · mobile", route: "/trainings/soc-analyst", file: "app/trainings/[slug]/page.tsx", carbon: "Accordion · Button", make: m5Course },
+  "m-institutes": { title: "For Institutes · mobile", route: "/for-institutes", file: "app/for-institutes/page.tsx", carbon: "Tile · Button", make: m5Institutes },
+  "m-pricing": { title: "Pricing · mobile", route: "/pricing", file: "app/pricing/page.tsx", carbon: "Tile · Button", make: m5Pricing },
+  "m-contact": { title: "Contact · mobile", route: "/contact", file: "app/contact/page.tsx", carbon: "TextInput · Button", make: m5Contact },
+};
+
+async function drawV5Page(key) {
+  const mobile = key.indexOf("m-") === 0;
+  const def = (mobile ? PAGES5M : PAGES5)[key];
+  if (!def) throw new Error("unknown v5 page: " + key);
+  const vw = mobile ? MW5 : W5;
+  const board = v5board(def.title, vw);
+  const stripH = 46;
+  // Drawers lay out from y=0; shift every shape down to free the strip row.
+  const h0 = Math.ceil(await def.make(board));
+  const kids = board.children || [];
+  for (let i = 0; i < kids.length; i++) {
+    try { kids[i].y = kids[i].y + stripH; } catch (e) { /* keep going */ }
+  }
+  routeStrip(board, def.route, def.file, def.carbon, vw);
+  const h = h0 + stripH;
+  board.resize(vw, h);
+  if (mobile) m5tabbar(board, h, key === "m-home" ? "Home" : key === "m-trainings" || key === "m-course" ? "Courses" : key === "m-institutes" ? "Institutes" : key === "m-pricing" ? "Pricing" : "Callback");
+  else v5float(board, h);
+  return { board: def.title, height: h };
+}
