@@ -25,9 +25,46 @@
 </style>
 </head>
 <body>
-  <h2>GradeSpot Designer v4</h2>
-  <p class="note">New sitemap: For Institutes, Pricing, Why Choose Us, Testimonials, Student Certifications, Certificate Verification. Dummy text only.</p>
+  <h2>GradeSpot Designer v5</h2>
+  <p class="note">Designs v5 — real content + tokens, annotated for Next.js + Carbon. v4 boards below unchanged.</p>
   <div class="sect">Setup</div>
+  <button class="tool" id="newPage5">📄 New page: Designs v5 — Next.js + Carbon</button>
+  <div class="sect">v5 · System boards</div>
+  <button class="page" data-page5="tokens">🎨 00 · Design Tokens</button>
+  <button class="page" data-page5="devmap">🗺️ 01 · Dev Map — Next.js + Carbon</button>
+  <div class="sect">v5 · Pages — desktop 1440</div>
+  <button class="page" data-page5="home">🏠 Home <span style="opacity:.55">/</span></button>
+  <button class="page" data-page5="about">ℹ️ About <span style="opacity:.55">/about</span></button>
+  <button class="page" data-page5="trainings">🎓 Trainings <span style="opacity:.55">/trainings</span></button>
+  <button class="page" data-page5="services">🏢 Services <span style="opacity:.55">/services</span></button>
+  <button class="page" data-page5="for-institutes">🏭 For Institutes <span style="opacity:.55">/for-institutes</span></button>
+  <button class="page" data-page5="pricing">💰 Pricing <span style="opacity:.55">/pricing</span></button>
+  <button class="page" data-page5="why-choose-us">⭐ Why Choose Us</button>
+  <button class="page" data-page5="testimonials">💬 Testimonials</button>
+  <button class="page" data-page5="certifications">🎓 Certifications</button>
+  <button class="page" data-page5="verify">✅ Verification</button>
+  <button class="page" data-page5="team">👥 Team</button>
+  <button class="page" data-page5="contact">✉️ Contact</button>
+  <div class="sect">v5 · Course pages — desktop 1440</div>
+  <button class="page" data-page5="course-soc-analyst">🛡️ SOC Analyst</button>
+  <button class="page" data-page5="course-ccna">📘 CCNA 200-301</button>
+  <button class="page" data-page5="course-cyber-security-professional">🔐 Cyber Security Professional</button>
+  <button class="page" data-page5="course-azure-administrator">☁️ Azure Administrator</button>
+  <button class="page" data-page5="course-aws-cloud">☁️ AWS Cloud</button>
+  <button class="page" data-page5="course-comptia-pentest-plus">🔍 CompTIA Pentest+</button>
+  <button class="page" data-page5="course-comptia-network-plus">🌐 CompTIA Network+</button>
+  <button class="page" data-page5="course-digital-marketing">📣 Digital Marketing</button>
+  <button class="page" data-page5="course-web-development">💻 Web Development</button>
+  <button class="page" data-page5="course-ceh">🧪 CEH <span style="opacity:.55">(planned)</span></button>
+  <button class="page" data-page5="course-aws-devops">⚙️ AWS + DevOps <span style="opacity:.55">(planned)</span></button>
+  <div class="sect">v5 · Pages — mobile 390</div>
+  <button class="page" data-page5="m-home">📱 Home</button>
+  <button class="page" data-page5="m-trainings">📱 Trainings</button>
+  <button class="page" data-page5="m-course">📱 SOC Analyst</button>
+  <button class="page" data-page5="m-institutes">📱 For Institutes</button>
+  <button class="page" data-page5="m-pricing">📱 Pricing</button>
+  <button class="page" data-page5="m-contact">📱 Contact</button>
+  <div class="sect">v4 (legacy)</div>
   <button class="tool" id="newPage">📄 New page: Designs v4</button>
   <div class="sect">Site pages (17)</div>
   <button class="page" data-page="home">🏠 Home</button>
@@ -61,6 +98,10 @@
       b.onclick = () => send("draw", { page: b.getAttribute("data-page") });
     });
     document.getElementById("newPage").onclick = () => send("new-page");
+    document.getElementById("newPage5").onclick = () => send("new-page5");
+    document.querySelectorAll("button.page[data-page5]").forEach((b) => {
+      b.onclick = () => send("draw5", { page: b.getAttribute("data-page5") });
+    });
     document.getElementById("test").onclick = () => send("test-hero");
     window.addEventListener("message", (e) => {
       const m = e.data;
