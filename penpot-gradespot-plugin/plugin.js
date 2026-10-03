@@ -1683,7 +1683,7 @@ const T5 = {
   ink: "#111827", body: "#666666", muted: "#7A7A7A", sec: "#54595F",
   bgLight: "#F3F7FD", tint: "#EDF5FF", border: "#E7E7E7", borderD: "#DDDDDD",
   white: "#FFFFFF", black: "#000000", green: "#059669",
-  footLink: "#9CA3AF", imgBg: "#E9EDF2", dark: "#0E2B3D",
+  footLink: "#98A2B3", imgBg: "#E9EDF2", dark: "#0E2B3D",
 };
 const W5 = 1440, MX5 = 80, CW5 = W5 - MX5 * 2;
 const MW5 = 390, MMX5 = 20, MCW5 = MW5 - MMX5 * 2;
