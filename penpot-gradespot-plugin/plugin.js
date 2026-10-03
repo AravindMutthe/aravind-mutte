@@ -1924,7 +1924,7 @@ function v5footer(board, y) {
   label(board, "f blurb", "Cybersecurity & IT training institute and IT solutions company in Hyderabad.", MX5, y + 116, 300, { size: 14, color: T5.footLink });
   label(board, "f badges", DATA5.badges.join(" · "), MX5, y + 176, 320, { size: 13, weight: "600", color: T5.footLink });
   const cols = [
-    ["Quick Links", ["Home", "About Us", "Trainings", "Pricing", "Contact Us"]],
+    ["Quick Links", ["Home", "About Us", "Trainings", "Pricing", "Contact Us", "Blog ↗", "Digital ↗"]],
     ["Top Courses", ["SOC Analyst Training", "CCNA 200-301", "Cyber Security Professional", "Azure Administrator", "Digital Marketing"]],
     ["Contact", [DATA5.emails[0], DATA5.emails[1], DATA5.phones[0], DATA5.phones[1]]],
   ];
@@ -2486,8 +2486,8 @@ async function d5DevMap(board) {
       ["/pricing", "app/pricing/page.tsx"], ["/team", "app/team/page.tsx"],
       ["/why-choose-us", "app/why-choose-us/page.tsx"], ["/testimonials", "app/testimonials/page.tsx"],
       ["/certifications", "app/certifications/page.tsx"], ["/verify", "app/verify/page.tsx"],
-      ["/contact", "app/contact/page.tsx"], ["API: verify", "app/api/verify/route.ts"],
-      ["API: lead", "app/api/lead/route.ts → CRM + WhatsApp"],
+      ["/contact", "app/contact/page.tsx"], ["API: verify", "app/api/verify/route.ts  →  Supabase `certificates` table"],
+      ["API: lead", "app/api/lead/route.ts  →  Supabase `leads` table + WhatsApp notify"],
     ]),
     (b, y) => table(b, y, "Section → Carbon component", [
       ["Site header/nav", "UI Shell: Header (custom marketing nav)"],
@@ -2569,17 +2569,17 @@ function m5courseList(board, y, list) {
 }
 function m5footer(board, y) {
   let yy = y;
-  rect(board, "mf bg", 0, yy, MW5, 560, T5.black);
+  rect(board, "mf bg", 0, yy, MW5, 640, T5.black);
   v5logo(board, MMX5, yy + 32, false); yy += 100;
   ["Quick Links", "Top Courses", "Contact"].forEach((h, i) => {
     label(board, "mf h" + i, h, MMX5, yy, MCW5, { size: 15, weight: "700", color: T5.white });
     yy += 34;
-    const links = i === 0 ? ["Home", "Trainings", "Pricing", "Contact"] : i === 1 ? ["SOC Analyst", "CCNA 200-301", "Cyber Security Professional"] : [DATA5.phones[0], DATA5.emails[0]];
+    const links = i === 0 ? ["Home", "Trainings", "Pricing", "Contact", "Blog ↗", "Digital ↗"] : i === 1 ? ["SOC Analyst", "CCNA 200-301", "Cyber Security Professional"] : [DATA5.phones[0], DATA5.emails[0]];
     links.forEach((l) => { label(board, "mf l" + i + l, l, MMX5, yy, MCW5, { size: 14, color: T5.footLink }); yy += 30; });
     yy += 12;
   });
   label(board, "mf copy", "© 2026 GradeSpot IT Solutions Pvt. Ltd.", MMX5, yy + 8, MCW5, { size: 12, color: T5.footLink, align: "center" });
-  return y + 560;
+  return y + 640;
 }
 function m5cta(board, y) {
   rect(board, "mcta bg", 0, y, MW5, 260, T5.orange);
