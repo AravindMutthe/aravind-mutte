@@ -14,8 +14,33 @@
       burger.classList.toggle('open', open);
       burger.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
-    links.querySelectorAll('a').forEach(function(a){
+    links.querySelectorAll('a:not(.mega-toggle)').forEach(function(a){
       a.addEventListener('click', function(){ links.classList.remove('open'); burger.classList.remove('open'); });
+    });
+
+    /* mega menu toggle (accordion on mobile, click-toggle on desktop) */
+    var megaToggle = document.getElementById('megaToggle');
+    if(megaToggle){
+      megaToggle.addEventListener('click', function(ev){
+        ev.preventDefault();
+        var wrap = megaToggle.closest('.has-mega');
+        var open = wrap.classList.toggle('open');
+        megaToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
+  }
+
+  /* ---------- floating contact widget ---------- */
+  var fabBtn = document.getElementById('fabBtn');
+  var fabWrap = document.getElementById('fabWrap');
+  if(fabBtn && fabWrap){
+    fabBtn.addEventListener('click', function(ev){
+      ev.stopPropagation();
+      var open = fabWrap.classList.toggle('open');
+      fabBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    document.addEventListener('click', function(ev){
+      if(!fabWrap.contains(ev.target)){ fabWrap.classList.remove('open'); fabBtn.setAttribute('aria-expanded','false'); }
     });
   }
 
