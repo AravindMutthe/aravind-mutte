@@ -484,6 +484,7 @@ footer{border-top:1px solid var(--line-soft);margin-top:40px;background:var(--bg
 .social-row{display:flex;flex-wrap:wrap;gap:10px}
 .sbtn{display:inline-flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:11px 20px;font-size:14px;font-weight:600;color:var(--ink);transition:.28s var(--ease)}
 .sbtn svg{width:17px;height:17px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.sbtn img{width:17px;height:17px;display:block;flex:none}
 .sbtn:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 10px 26px rgba(255,77,0,.14)}
 /* ---------- about: sections ---------- */
 .about-sec{margin-bottom:88px}
@@ -519,6 +520,7 @@ footer{border-top:1px solid var(--line-soft);margin-top:40px;background:var(--bg
 .soc-card{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line-soft);border-radius:18px;padding:20px 22px;box-shadow:0 8px 28px rgba(22,21,19,.05);transition:.3s var(--ease)}
 .soc-card:hover{transform:translateY(-4px);border-color:rgba(255,77,0,.5);box-shadow:0 16px 40px rgba(255,77,0,.1)}
 .soc-card svg{width:22px;height:22px;flex:none;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.soc-card img{width:22px;height:22px;display:block;flex:none}
 .soc-card .sl{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .soc-card .sv{font-size:14.5px;font-weight:600;color:var(--ink);word-break:break-all}
 @media(max-width:900px){
