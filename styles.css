@@ -126,9 +126,9 @@ body::after{
 .home-hero{position:relative;padding:188px 0 84px;text-align:center}
 .status{
   display:inline-flex;align-items:center;gap:10px;
-  border:1px solid var(--line);border-radius:999px;
+  border:1px solid rgba(34,197,94,.5);border-radius:999px;
   padding:9px 20px;font-size:13px;font-weight:500;color:var(--ink);
-  background:rgba(255,255,255,.65);
+  background:rgba(34,197,94,.08);
   margin-bottom:30px;
 }
 .dot{width:8px;height:8px;border-radius:50%;background:var(--green-bright);box-shadow:0 0 10px rgba(34,197,94,.9);animation:pulse 2.2s infinite}
@@ -265,6 +265,7 @@ body::after{
   transition:transform .35s var(--ease),border-color .35s,box-shadow .35s;
 }
 .t-card:hover{transform:translateX(6px);border-color:rgba(255,77,0,.5);box-shadow:0 22px 55px rgba(255,77,0,.1)}
+.t-card{border-left:3px solid var(--green)}
 .t-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:6px}
 .t-top h3{font-family:var(--fd);font-size:20px;font-weight:700;letter-spacing:-.015em;color:var(--ink)}
 .t-date{
@@ -328,6 +329,7 @@ body::after{
 .method:hover{transform:translateY(-4px);border-color:rgba(255,77,0,.5);box-shadow:0 18px 44px rgba(255,77,0,.12)}
 .method svg{width:22px;height:22px;flex:none;stroke:var(--accent);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s var(--spring)}
 .method:hover svg{transform:scale(1.15)}
+.contact-grid .method:nth-child(2) svg{stroke:var(--green)}
 .method .ml{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .method .mv{font-size:16px;font-weight:600;color:var(--ink);word-break:break-all}
 
