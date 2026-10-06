@@ -125,9 +125,11 @@
   window.addEventListener('scroll', function(){ if(!ticking){ ticking = true; requestAnimationFrame(parallax); } }, {passive:true});
   parallax();
 
-  /* ---------- hire form: email + WhatsApp + SMS ---------- */
+  /* ---------- hire form: Supabase + email + WhatsApp ---------- */
   var WA_NUMBER = '919885189951';
   var EMAIL = 'mutthe.aravind@gmail.com';
+  var AXON_API = 'https://axon-api-246396716039.us-central1.run.app';
+  var RECAPTCHA_KEY = '6LeEg-EtAAAAAP_YI5QwbY2dYINLYWjDSxv48YoL';
   var form = document.getElementById('hireForm');
   if(form){
     var btn = document.getElementById('hireBtn');
@@ -169,12 +171,43 @@
         (budget ? '\nBudget: ' + budget : '') +
         '\n\n' + msg;
 
+      /* normalize phone to 10-digit Indian mobile for the API (optional field) */
+      var digits = phone.replace(/\D/g, '');
+      if(digits.length === 12 && digits.indexOf('91') === 0) digits = digits.slice(2);
+      if(digits.length === 11 && digits.charAt(0) === '0') digits = digits.slice(1);
+      var cleanPhone = /^[6-9]\d{9}$/.test(digits) ? digits : null;
+
       btn.disabled = true;
       btn.classList.add('loading');
       btnLabel.textContent = 'Sending…';
 
-      /* 1) email straight to his inbox (free FormSubmit relay) */
-      fetch('https://formsubmit.co/ajax/' + EMAIL, {
+      /* 1) save to Supabase via the Axon lead API (bot-checked with reCAPTCHA) */
+      var apiPromise = new Promise(function(resolve){
+        function postLead(token){
+          fetch(AXON_API + '/api/leads', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              fullName: name,
+              email: email,
+              phone: cleanPhone || undefined,
+              message: (budget ? 'Budget: ' + budget + '\n\n' : '') + msg,
+              source: 'portfolio',
+              recaptchaToken: token
+            })
+          }).then(function(r){ return r.json().then(function(j){ resolve(r.ok && j.ok === true); }); })
+            .catch(function(){ resolve(false); });
+        }
+        if(window.grecaptcha && grecaptcha.enterprise){
+          grecaptcha.enterprise.ready(function(){
+            grecaptcha.enterprise.execute(RECAPTCHA_KEY, {action: 'lead_submit'})
+              .then(postLead, function(){ resolve(false); });
+          });
+        } else { resolve(false); }
+      });
+
+      /* 2) email straight to his inbox (free FormSubmit relay) — instant notify */
+      var emailPromise = fetch('https://formsubmit.co/ajax/' + EMAIL, {
         method: 'POST',
         headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
         body: JSON.stringify({
@@ -183,24 +216,26 @@
           _template: 'table',
           _honey: form.querySelector('[name="_honey"]').value
         })
-      }).then(function(r){ return r.json(); })
-        .then(function(){ emailOk = true; })
-        .catch(function(){ emailOk = false; })
-        .finally(function(){
-          /* 2) open WhatsApp with the enquiry pre-filled — one tap sends it to him */
-          window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(summary), '_blank');
-          btn.disabled = false;
-          btn.classList.remove('loading');
-          btnLabel.textContent = 'Send Enquiry →';
-          showStatus(true,
-            '<strong>Done!</strong> ' +
-            (emailOk ? 'Your enquiry is on its way to my <strong>email</strong>, and ' : 'WhatsApp opened with your message — ') +
-            'I opened <strong>WhatsApp</strong> with everything pre-filled: just press send there and it lands straight on my phone.' +
-            channelButtons(summary) +
-            '<div style="margin-top:12px;font-size:13px;opacity:.75">Prefer another way? Use SMS or your email app above.</div>');
-          form.reset();
-        });
-      var emailOk = false;
+      }).then(function(){ return true; }).catch(function(){ return false; });
+
+      Promise.all([apiPromise, emailPromise]).then(function(res){
+        var apiOk = res[0], emailOk = res[1];
+        /* 3) open WhatsApp with the enquiry pre-filled — one tap sends it to him */
+        window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(summary), '_blank');
+        btn.disabled = false;
+        btn.classList.remove('loading');
+        btnLabel.textContent = 'Send Enquiry →';
+        var bits = [];
+        if(apiOk) bits.push('saved');
+        if(emailOk) bits.push('emailed to me');
+        showStatus(true,
+          '<strong>Done!</strong> Your enquiry was ' +
+          (bits.length ? bits.join(' and ') : 'received') +
+          '. I opened <strong>WhatsApp</strong> with everything pre-filled: just press send there and it lands straight on my phone.' +
+          channelButtons(summary) +
+          '<div style="margin-top:12px;font-size:13px;opacity:.75">Prefer another way? Use SMS or your email app above.</div>');
+        form.reset();
+      });
     });
   }
 })();
