@@ -65,31 +65,32 @@ body::after{
 /* ---------- nav ---------- */
 #nav{
   position:fixed;inset:0 0 auto 0;z-index:1000;
-  background:rgba(250,248,245,.75);
-  -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--line-soft);
+  background:var(--accent);
+  border-bottom:1px solid rgba(0,0,0,.12);
   transition:background .3s;
 }
-#nav.scrolled{background:rgba(250,248,245,.94)}
+#nav.scrolled{background:var(--accent)}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
-.brand{display:flex;align-items:center;gap:11px;font-weight:600;font-size:15px;letter-spacing:-.01em;color:var(--ink)}
+.brand{display:flex;align-items:center;gap:11px;font-weight:600;font-size:15px;letter-spacing:-.01em;color:#fff}
 .brand-mark{
-  width:30px;height:30px;border-radius:8px;background:var(--accent);color:#000;
+  width:30px;height:30px;border-radius:8px;background:#fff;color:var(--accent);
   display:grid;place-items:center;font-family:var(--fd);font-weight:800;font-size:12px;letter-spacing:-.02em;
   transition:transform .3s var(--spring);
 }
 .brand:hover .brand-mark{transform:rotate(-8deg) scale(1.06)}
 .nav-links{display:flex;gap:28px}
 .nav-links a{
-  position:relative;font-size:13px;font-weight:500;color:var(--muted);
+  position:relative;font-size:13px;font-weight:500;color:rgba(255,255,255,.85);
   padding:6px 0;transition:color .25s;
 }
 .nav-links a::after{
-  content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:var(--accent);transition:right .3s var(--ease);
+  content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:#fff;transition:right .3s var(--ease);
 }
-.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover{color:#fff}
 .nav-links a:hover::after,.nav-links a.active::after{right:0}
-.nav-links a.active{color:var(--ink);font-weight:600}
+.nav-links a.active{color:#fff;font-weight:600}
+.nav-cta{background:#fff;border-color:#fff;color:var(--accent)}
+.nav-cta:hover{background:#fff;border-color:#fff;color:var(--accent);filter:brightness(.96)}
 
 /* ---------- buttons ---------- */
 .btn{
@@ -115,7 +116,7 @@ body::after{
 
 /* ---------- hamburger ---------- */
 .hamburger{display:none;background:none;border:0;cursor:pointer;padding:10px;z-index:1101}
-.hamburger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;margin:5px 0;transition:.35s var(--ease)}
+.hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;margin:5px 0;transition:.35s var(--ease)}
 .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
 .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
@@ -494,7 +495,7 @@ footer{border-top:1px solid var(--line-soft);margin-top:40px;background:var(--bg
 @media(max-width:900px){
   .nav-links{
     position:absolute;top:0;left:0;right:0;min-height:100vh;min-height:100dvh;overflow-y:auto;
-    background:var(--bg);z-index:1100;
+    background:var(--accent);z-index:1100;
     flex-direction:column;align-items:flex-start;justify-content:center;
     padding:0 36px;gap:6px;
     opacity:0;pointer-events:none;transition:opacity .35s var(--ease);
@@ -502,7 +503,7 @@ footer{border-top:1px solid var(--line-soft);margin-top:40px;background:var(--bg
   .nav-links.open{opacity:1;pointer-events:auto}
   .nav-links a{
     font-family:var(--fd);font-size:clamp(38px,9vw,56px);font-weight:800;letter-spacing:-.03em;
-    color:var(--ink);padding:8px 0;opacity:0;transform:translateY(24px);
+    color:#fff;padding:8px 0;opacity:0;transform:translateY(24px);
     transition:opacity .4s var(--ease),transform .4s var(--ease),color .25s;
   }
   .nav-links.open a{opacity:1;transform:none}
@@ -527,7 +528,11 @@ footer{border-top:1px solid var(--line-soft);margin-top:40px;background:var(--bg
   }
   .has-mega.open .mega{max-height:780px;opacity:1;pointer-events:auto;padding:6px 16px 12px}
   .nav-links .mega-card{padding:12px 14px;opacity:1;transform:none}
-  .nav-links .mega-card b{font-size:15px}
+  .nav-links .mega-card b{font-size:15px;color:#fff}
+  .nav-links .mega-card i{color:rgba(255,255,255,.82)}
+  .nav-links .mega-card:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.35)}
+  .nav-links .mega-foot{color:rgba(255,255,255,.85)}
+  .nav-links .mega-foot a{color:#fff}
   .nav-links a::after{display:none}
   .nav-links a.active{color:var(--accent)}
   .hamburger{display:block}
