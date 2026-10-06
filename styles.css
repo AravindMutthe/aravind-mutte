@@ -296,6 +296,11 @@ body::after{
 .skill-panel .sp-sub{color:var(--muted);font-size:14px;margin:4px 0 20px}
 .sp-also{margin-top:14px;font-size:13px;color:var(--muted)}
 .sp-also b{color:var(--ink);font-weight:600}
+/* Service-model groups */
+.model-groups{display:grid;gap:22px}
+.model-label{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+.model-label b{font-family:var(--fd);font-size:17px;font-weight:800;color:var(--accent);letter-spacing:.03em}
+.model-label span{font-size:13px;color:var(--muted)}
 .tile-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:12px}
 .tile{background:var(--bg);border:1px solid var(--line-soft);border-radius:14px;padding:18px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:118px;transition:.25s var(--ease);text-align:center}
 .tile:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 12px 28px rgba(255,77,0,.12)}
