@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Skills — Aravind Mutte</title>
-<meta name="description" content="Technical skills: AWS, Azure, Terraform, Kubernetes, Jenkins, Docker, Prometheus, Grafana, Python, Linux.">
+<meta name="description" content="Technical skills: AWS, GCP, Azure, Kubernetes, Terraform, Next.js, React, TypeScript, IBM Carbon, Tailwind CSS, Docker, Python, Linux and more.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=5">
+<link rel="stylesheet" href="styles.css?v=9">
 </head>
 <body>
 <div id="progress"></div>
@@ -32,20 +32,123 @@
 <header class="page-hero">
   <div class="wrap">
     <div class="eyebrow reveal"><span class="n">03</span> Toolbox</div>
-    <h1 class="hero-title reveal">Technologies I work <span class="grad">with daily.</span></h1>
-    <p class="lead reveal d1">A focused, production-proven stack — no buzzword bingo.</p>
+    <h1 class="hero-title reveal">The full stack, <span class="grad">end to end.</span></h1>
+    <p class="lead reveal d1">Every platform, language, and tool I've actually worked with — cloud, code, and everything between.</p>
   </div>
 </header>
 
 <section class="block" style="padding-top:0">
   <div class="wrap">
-    <div class="skills-grid">
-      <div class="skill-cat reveal"><h4>Cloud Platforms</h4><div class="chips"><span class="chip">AWS</span><span class="chip">EC2 · S3 · RDS</span><span class="chip">Lambda</span><span class="chip">VPC · IAM</span><span class="chip">Azure</span><span class="chip">AKS</span><span class="chip">App Services</span><span class="chip">Entra ID</span></div></div>
-      <div class="skill-cat reveal d1"><h4>Infrastructure as Code</h4><div class="chips"><span class="chip">Terraform</span><span class="chip">CloudFormation</span><span class="chip">ARM Templates</span><span class="chip">YAML</span></div></div>
-      <div class="skill-cat reveal d2"><h4>CI / CD</h4><div class="chips"><span class="chip">Jenkins</span><span class="chip">GitHub Actions</span><span class="chip">GitLab CI</span><span class="chip">Azure DevOps</span><span class="chip">AWS CodePipeline</span></div></div>
-      <div class="skill-cat reveal"><h4>Containers</h4><div class="chips"><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">Amazon EKS</span><span class="chip">Azure AKS</span><span class="chip">ECS Fargate</span><span class="chip">Helm</span></div></div>
-      <div class="skill-cat reveal d1"><h4>Observability</h4><div class="chips"><span class="chip">Prometheus</span><span class="chip">Grafana</span><span class="chip">CloudWatch</span><span class="chip">Azure Monitor</span></div></div>
-      <div class="skill-cat reveal d2"><h4>Languages &amp; Systems</h4><div class="chips"><span class="chip">Python</span><span class="chip">Bash</span><span class="chip">Linux (RHEL / Ubuntu)</span><span class="chip">Git</span><span class="chip">Oracle · MySQL</span></div></div>
+    <div class="skills-cats">
+
+      <div class="skill-panel reveal">
+        <h4>Cloud Platforms</h4><p class="sp-sub">Where workloads live.</p>
+        <div class="tile-grid">
+          <div class="tile"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Amazon_Web_Services_Logo.svg" alt="AWS logo"><span>AWS</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/googlecloud" alt="Google Cloud logo"><span>Google Cloud</span></div>
+          <div class="tile"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Microsoft_Azure_Logo.svg" alt="Microsoft Azure logo"><span>Azure</span></div>
+          <div class="tile"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Oracle_logo.svg" alt="Oracle Cloud logo"><span>Oracle Cloud</span></div>
+        </div>
+      </div>
+
+      <div class="skill-panel reveal">
+        <h4>Containers &amp; Orchestration</h4><p class="sp-sub">Package once, run anywhere.</p>
+        <div class="tile-grid">
+          <div class="tile"><img src="https://cdn.simpleicons.org/docker" alt="Docker logo"><span>Docker</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/kubernetes" alt="Kubernetes logo"><span>Kubernetes</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/redhatopenshift" alt="OpenShift logo"><span>OpenShift</span></div>
+          <div class="tile"><div class="mono">He</div><span>Helm</span></div>
+        </div>
+      </div>
+
+      <div class="skill-panel reveal">
+        <h4>Infrastructure as Code</h4><p class="sp-sub">ClickOps is not a strategy.</p>
+        <div class="tile-grid">
+          <div class="tile"><img src="https://cdn.simpleicons.org/terraform" alt="Terraform logo"><span>Terraform</span></div>
+          <div class="tile"><div class="mono">CF</div><span>CloudFormation</span></div>
+          <div class="tile"><div class="mono">ARM</div><span>ARM Templates</span></div>
+          <div class="tile"><div class="mono">YA</div><span>YAML</span></div>
+        </div>
+      </div>
+
+      <div class="skill-panel reveal">
+        <h4>CI / CD &amp; Automation</h4><p class="sp-sub">Ship on every commit.</p>
+        <div class="tile-grid">
+          <div class="tile"><img src="https://cdn.simpleicons.org/jenkins" alt="Jenkins logo"><span>Jenkins</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/githubactions" alt="GitHub Actions logo"><span>GitHub Actions</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/gitlab" alt="GitLab logo"><span>GitLab CI</span></div>
+          <div class="tile"><div class="mono">Az</div><span>Azure DevOps</span></div>
+          <div class="tile"><div class="mono">CB</div><span>Cloud Build</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/travisci" alt="Travis CI logo"><span>Travis CI</span></div>
+        </div>
+      </div>
+
+      <div class="skill-panel reveal">
+        <h4>Languages &amp; Runtimes</h4><p class="sp-sub">The raw materials.</p>
+        <div class="tile-grid">
+          <div class="tile"><img src="https://cdn.simpleicons.org/python" alt="Python logo"><span>Python</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/typescript" alt="TypeScript logo"><span>TypeScript</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/javascript" alt="JavaScript logo"><span>JavaScript</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/nodedotjs" alt="Node.js logo"><span>Node.js</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/gnubash" alt="Bash logo"><span>Bash</span></div>
+          <div class="tile"><div class="mono">Ja</div><span>Java</span></div>
+          <div class="tile"><div class="mono">SQL</div><span>SQL</span></div>
+        </div>
+      </div>
+
+      <div class="skill-panel reveal">
+        <h4>Modern Web Stack</h4><p class="sp-sub">What I build sites and apps with.</p>
+        <div class="tile-grid">
+          <div class="tile"><img src="https://cdn.simpleicons.org/nextdotjs" alt="Next.js logo"><span>Next.js</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/react" alt="React logo"><span>React</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/tailwindcss" alt="Tailwind CSS logo"><span>Tailwind CSS</span></div>
+          <div class="tile"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/IBM_logo.svg" alt="IBM logo"><span>IBM Carbon</span></div>
+          <div class="tile"><div class="mono">FM</div><span>Framer Motion</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/express" alt="Express logo"><span>Express</span></div>
+          <div class="tile"><div class="mono">Z</div><span>Zod</span></div>
+          <div class="tile"><div class="mono">AI</div><span>Vercel AI SDK</span></div>
+        </div>
+      </div>
+
+      <div class="skill-panel reveal">
+        <h4>Data, Messaging &amp; Integration</h4><p class="sp-sub">Moving data between systems.</p>
+        <div class="tile-grid">
+          <div class="tile"><img src="https://cdn.simpleicons.org/postgresql" alt="PostgreSQL logo"><span>PostgreSQL</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/supabase" alt="Supabase logo"><span>Supabase</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/apachekafka" alt="Kafka logo"><span>Kafka</span></div>
+          <div class="tile"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/IBM_logo.svg" alt="IBM logo"><span>Sterling B2B</span></div>
+          <div class="tile"><div class="mono">EDI</div><span>X12 / EDIFACT</span></div>
+          <div class="tile"><div class="mono">AS2</div><span>AS2 · SFTP</span></div>
+        </div>
+      </div>
+
+      <div class="skill-panel reveal">
+        <h4>Observability &amp; AI</h4><p class="sp-sub">See everything, predict what's next.</p>
+        <div class="tile-grid">
+          <div class="tile"><img src="https://cdn.simpleicons.org/prometheus" alt="Prometheus logo"><span>Prometheus</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/grafana" alt="Grafana logo"><span>Grafana</span></div>
+          <div class="tile"><div class="mono">CW</div><span>CloudWatch</span></div>
+          <div class="tile"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Groq_logo.svg" alt="Groq logo"><span>Groq</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/googlegemini" alt="Gemini logo"><span>Gemini API</span></div>
+        </div>
+      </div>
+
+      <div class="skill-panel reveal">
+        <h4>Platforms &amp; Tooling</h4><p class="sp-sub">The daily drivers.</p>
+        <div class="tile-grid">
+          <div class="tile"><img src="https://cdn.simpleicons.org/linux" alt="Linux logo"><span>Linux</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/git" alt="Git logo"><span>Git</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/tailscale" alt="Tailscale logo"><span>Tailscale</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/vercel" alt="Vercel logo"><span>Vercel</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/n8n" alt="n8n logo"><span>n8n</span></div>
+          <div class="tile"><div class="mono">KVM</div><span>KVM / QEMU</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/figma" alt="Figma logo"><span>Figma</span></div>
+          <div class="tile"><img src="https://cdn.simpleicons.org/penpot" alt="Penpot logo"><span>Penpot</span></div>
+          <div class="tile"><div class="mono">UK</div><span>Uptime Kuma</span></div>
+          <div class="tile"><div class="mono">Ca</div><span>Caddy</span></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -53,7 +156,6 @@
 <section class="block" style="padding-top:0">
   <div class="wrap">
     <div class="cta-band reveal">
-      
       <h2>Need any of this <span class="grad">done right?</span></h2>
       <p>From a one-week pipeline fix to a full platform build — let's talk.</p>
       <div class="cta-row">
