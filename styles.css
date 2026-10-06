@@ -279,7 +279,7 @@ body::after{
   padding:7px 14px;border-radius:999px;white-space:nowrap;
 }
 .mono{font-family:var(--fb)}
-.t-org{display:flex;align-items:center;gap:12px;font-size:15px;font-weight:600;color:#232220}
+.t-org{display:flex;align-items:center;flex-wrap:wrap;gap:12px;font-size:15px;font-weight:600;color:#232220}
 .t-logo{height:32px;width:auto;max-width:132px;object-fit:contain;flex:none}
 .t-mono{height:32px;width:32px;border-radius:9px;background:var(--deep);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-family:var(--fd);font-weight:800;font-size:13px;flex:none}
 .t-stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
@@ -457,7 +457,7 @@ footer{border-top:1px solid var(--line-soft);margin-top:40px;background:var(--bg
   .feature{grid-template-columns:1fr}
   .f-visual{min-height:240px;order:-1}
 }
-@media(max-width:760px){
+@media(max-width:900px){
   .nav-links{
     position:fixed;inset:0;background:var(--bg);z-index:1100;
     flex-direction:column;align-items:flex-start;justify-content:center;
