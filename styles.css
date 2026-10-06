@@ -296,7 +296,7 @@ body::after{
 .skill-panel .sp-sub{color:var(--muted);font-size:14px;margin:4px 0 20px}
 .sp-also{margin-top:14px;font-size:13px;color:var(--muted)}
 .sp-also b{color:var(--ink);font-weight:600}
-/* Service-model groups */
+/* Service-model groups (v9.1) */
 .model-groups{display:grid;gap:22px}
 .model-label{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
 .model-label b{font-family:var(--fd);font-size:17px;font-weight:800;color:var(--accent);letter-spacing:.03em}
